@@ -1,0 +1,162 @@
+directive @cacheControl(
+    maxAge: Int,
+    scope: CacheControlScope
+) on OBJECT | FIELD | FIELD_DEFINITION
+
+enum CacheControlScope {
+    PUBLIC
+    PRIVATE
+}
+scalar Date
+scalar DateTime
+type TestSetting@cacheControl(maxAge: 240){
+    name: String!
+    value: String!
+}
+type Student@cacheControl(maxAge: 240){
+    id: ID!
+    name: String!
+    username: String!
+    usn: String!
+    groups: [Group!]
+    email: String
+    dob: Date
+    created_at: DateTime!
+    updated_at: DateTime!
+}
+
+type Faculty@cacheControl(maxAge: 240){
+    id: ID!
+    name: String!
+    username: String!
+    designation: String!
+    permssions: [Permission!]
+    email: String
+    groups: [Group!]
+    created_at: DateTime!
+    updated_at: DateTime!
+}
+
+type Course@cacheControl(maxAge: 240){
+    id: ID!
+    code: String!
+    name: String!
+    created_at: DateTime!
+    updated_at: DateTime!
+}
+
+type Test@cacheControl(maxAge: 240){
+    id: ID!
+    course: Course!
+    name: String!
+    settings: [TestSetting!]
+    faculty: [Faculty!]
+    groups: [Group!]
+    questions: [Question!]
+    attempts: [Attempt!]
+    created_at: DateTime!
+    updated_at: DateTime!
+}
+type Group@cacheControl(maxAge: 240){
+    id: ID!
+    name: String!
+    parent: Group
+    children: [Group!]
+    students: [Student!]
+    faculty: [Faculty!]
+    tests: [Test!]
+}
+
+type Question@cacheControl(maxAge: 240){
+    id: ID!
+    qno: Int!
+    student_answers: [Answer!]
+    schema: QuestionSchema!
+    created_at: DateTime!
+    updated_at: DateTime!
+}
+enum QuestionSchema{
+    SubjectiveQuestion
+    ObjectiveQuestion
+    CodingQuestion
+}
+type SubjectiveQuestion@cacheControl(maxAge: 300){
+    description: String!
+}
+type ObjectiveQuestion@cacheControl(maxAge: 300){
+    description: String!
+    options: [String!]
+    correct_option: Int
+}
+type CodingQuestion@cacheControl(maxAge: 300){
+    problem_statement: String!
+    input_constraints: String!
+    samples: String!
+}
+type Answer{
+    id: ID!
+    question: Question!
+    attempt: Attempt!
+    data: String!
+    created_at: DateTime!
+    updated_at: DateTime!
+}
+
+type Attempt@cacheControl(maxAge: 240){
+    id: ID!
+    student: Student!
+    test: Test!
+    created_at: DateTime!
+    updated_at: DateTime!
+}
+
+type Permission@cacheControl(maxAge: 900){
+    id: ID!
+    name: String!
+    created_at: DateTime!
+    updated_at: DateTime!
+}
+enum User{
+    Student
+    Faculty
+}
+type Query {
+  me: User
+  student(id:ID!): Student
+  faculty(id:ID!): Faculty
+  students(limit:Int page:Int name:String): [Student!]
+  faculties(limit:Int page:Int name:String): [Faculty!]
+  tests(limit:Int page:Int name:String): [Test!]
+  groups(limit:Int page:Int name:String): [Group!]
+  courses(limit:Int page:Int name:String): [Course!]
+  permissions(limit:Int page:Int name:String): [Permission!]
+  question(id:ID!): Question
+  test(id:ID!): Test
+  answer(id:ID!): Answer
+  attempt(id:ID!): Attempt
+  course(id:ID!): Course
+  group(id:ID!): Group
+  permission(id:ID!): Permission
+}
+type Mutation {
+    createFaculty(name: String! username: String! designation: String! email: String password: String!): Faculty!
+    createStudent(name: String! username: String! usn: String! email: String password: String! dob:Date): Student!
+    updateFaculty(id:ID! name: String username: String designation: String email: String password: String): Faculty!
+    updateStudent(id:ID! name: String username: String usn: String email: String password: String dob:Date): Student!
+    createGroup(name: String! parentGroup:ID): Group!
+    updateGroup(id:ID! name: String parentGroup:ID): Group!
+    addFacultyToGroup(groupID:ID! facultyID: ID!): Group!
+    removeFacultyFromGroup(groupID:ID! facultyID: ID!): Group!
+    addStudentToGroup(groupID:ID! studentID: ID!): Group!
+    removeStudentFromGroup(groupID:ID! studentID: ID!): Group!
+    createTest(name: String! ): Test!
+    updateTestName(id:ID! name: String!): Test!
+    updateTestSetting(id:ID! settingID: ID!): Test!
+    addFacultyToTest(testID:ID! facultyID: ID!): Test!
+    removeFacultyFromTest(testID:ID! facultyID: ID!): Test!
+    addGroupToTest(testID:ID! groupID:ID!): Test!
+    removeGroupFromTest(testID:ID! groupID:ID!): Test!
+    deleteQuestion(testID:ID! questionID:ID!): Test!
+    updateQuestion(questionID:ID! qno:Int schema:QuestionSchema ): Test!
+    createQuestion(testID:ID! qno:Int! schema:QuestionSchema! ): Test!
+}
