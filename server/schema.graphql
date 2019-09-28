@@ -159,4 +159,6 @@ type Mutation {
     deleteQuestion(testID:ID! questionID:ID!): Test!
     updateQuestion(questionID:ID! qno:Int schema:QuestionSchema ): Test!
     createQuestion(testID:ID! qno:Int! schema:QuestionSchema! ): Test!
+    attemptTest(testID:ID!): Attempt!
+    answerQuestion(attemptID:ID! questionID:ID! answer:String!): Test!
 }
