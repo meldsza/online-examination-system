@@ -6,6 +6,7 @@ exports.up = function (knex) {
             table.integer('student_id').unsigned().notNullable();
             table.foreign('group_id').references('groups.id').onDelete('CASCADE').onUpdate('CASCADE')
             table.foreign('student_id').references('students.id').onDelete('CASCADE').onUpdate('CASCADE')
+            table.primary(['group_id', 'student_id'])
             table.timestamps();
         })
 };
