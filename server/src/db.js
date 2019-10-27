@@ -16,6 +16,7 @@ class DB extends DataSource {
         this.AppSetting = require('../models/AppSetting')
         this.Permission = require('../models/Permission')
         this.PasswordReset = require('../models/PasswordReset')
+        this.UserToken = require('../models/UserToken')
     }
     initialize(config) {
         this.context = config.context;
