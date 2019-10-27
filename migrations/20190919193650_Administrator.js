@@ -5,6 +5,7 @@ exports.up = function (knex) {
             table.integer('faculty_id').unsigned().notNullable();
             table.integer('permission_id').unsigned().notNullable();
             table.timestamps();
+            table.primary(['faculty_id', 'permission_id'])
         });
 };
 
