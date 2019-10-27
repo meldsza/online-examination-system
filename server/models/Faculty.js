@@ -5,6 +5,6 @@ module.exports = bookshelf.model('Faculty', {
         return this.belongsToMany('Permission', 'administrators');
     },
     groups() {
-        this.belongsToMany('Group', 'group_faculty')
+        return this.belongsToMany('Group', 'group_faculty')
     }
 });
