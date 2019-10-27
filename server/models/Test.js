@@ -5,7 +5,7 @@ module.exports = bookshelf.model('Test', {
         return this.belongsTo('Course')
     },
     groups() {
-        this.belongsToMany('Group', 'group_test')
+        return this.belongsToMany('Group', 'group_test')
     },
     faculty() {
         return this.belongsTo('Faculty', 'faculty_test')

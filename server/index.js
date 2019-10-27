@@ -35,7 +35,7 @@ function initalizeServer(app) {
             if (!token.includes("Bearer")) return new AuthenticationError("Invalid token")
             token = token.substring(7).trim()
             // try to retrieve a user with the token
-            const tu = await db.UserToken.where('token', token).first()
+            const tu = await db.UserToken.where({ 'token': token }).fetch()
             if (!tu)
                 return new AuthenticationError("Invalid token")
             const user = tu.user;
