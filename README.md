@@ -1,29 +1,13 @@
-# online-examination-system
+# Online Examination Systen  
+## Setup  
+1. Run `npm install`  
+2. Install knex globally: `npm install -g knex`  
+3. Create knexfile: `knex init` and configure it
+4. Run migrations: `knex migrate:latest`
 
-## Project setup
-```
-npm install
-```
+## Production launch
+1. Compile vue: `npm run build`
+2. Run server: `npm start`
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Run your tests
-```
-npm run test
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+## Development launch
+1. `npm run serve`

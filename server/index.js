@@ -2,17 +2,14 @@ const cors = require('cors')
 const morgan = require('morgan');
 const db = require('./src/db');
 const express = require('express');
-const asp = require('apollo-server-express')
-const ApolloServer = asp.ApolloServer,
-    AuthenticationError = asp.AuthenticationError
-
-
+const { ApolloServer, AuthenticationError } = require('apollo-server-express')
 const schema = require('./src/schema');
 const resolvers = require('./src/resolvers');
 
 function createServer() {
     let app = express();
     initalizeServer(app);
+    app.use(express.static('dist'))
     launchServer(app);
 }
 function initalizeServer(app) {
@@ -20,7 +17,7 @@ function initalizeServer(app) {
     app.use(cors());
 
     app.use(morgan('dev'));
-    app.use(express.static('dist'))
+
 
     const server = new ApolloServer({
         introspection: true,
@@ -32,14 +29,16 @@ function initalizeServer(app) {
                 ...error,
             };
         },
-        context: ({ req }) => {
+        context: async ({ req }) => {
             // get the user token from the headers
             let token = req.headers.authorization || '';
             if (!token.includes("Bearer")) return new AuthenticationError("Invalid token")
             token = token.substring(7).trim()
             // try to retrieve a user with the token
-            const user = db.findUserByToken(token);
-
+            const tu = await db.UserToken.where('token', token).first()
+            if (!tu)
+                return new AuthenticationError("Invalid token")
+            const user = tu.user;
             // add the user to the context
             return { user };
         },
