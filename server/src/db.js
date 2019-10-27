@@ -6,7 +6,6 @@ class DB extends DataSource {
         super();
         this.Student = require('../models/Student')
         this.Faculty = require('../models/Faculty')
-        this.Administrator = require('../models/Administrator')
         this.Group = require('../models/Group')
         this.Course = require('../models/Course')
         this.Attempt = require('../models/Attempt')

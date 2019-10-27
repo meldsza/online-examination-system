@@ -50,7 +50,7 @@ type Test@cacheControl(maxAge: 240){
     course: Course!
     name: String!
     settings: [TestSetting!]
-    faculty: [Faculty!]
+    faculties: [Faculty!]
     groups: [Group!]
     questions: [Question!]
     attempts: [Attempt!]
@@ -63,7 +63,7 @@ type Group@cacheControl(maxAge: 240){
     parent: Group
     children: [Group!]
     students: [Student!]
-    faculty: [Faculty!]
+    faculties: [Faculty!]
     tests: [Test!]
 }
 
