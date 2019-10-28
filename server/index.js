@@ -36,13 +36,18 @@ function initalizeServer(app) {
         context: async ({ req }) => {
             // get the user token from the headers
             let token = req.headers.authorization || '';
-            if (!token.includes("Bearer")) return new AuthenticationError("Invalid token")
+            if (!token.includes("Bearer")) throw new AuthenticationError("Invalid token")
             token = token.substring(7).trim()
             // try to retrieve a user with the token
-            const tu = await db.UserToken.where({ 'token': token }).fetch()
+            const tu = await db.UserToken.where({ 'token': token })
             if (!tu)
-                return new AuthenticationError("Invalid token")
-            const user = tu.user;
+                throw new AuthenticationError("Invalid token")
+            let user;
+            if (tu.user_type == 'Faculty')
+                user = await db.Faculty.query().findById(tu.user_id);
+            else if (tu.user_type == 'Student')
+                user = await db.Student.query().findById(tu.user_id);
+            else throw new AuthenticationError("Invalid token")
             // add the user to the context
             return { user };
         },
