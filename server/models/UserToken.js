@@ -1,7 +1,9 @@
-const bookshelf = require('../bookshelf')
-module.exports = bookshelf.model('UserToken', {
-    tableName: 'user_tokens',
-    user() {
-        return this.morphOne('user', ['user_id', 'user_type'], ['Student', 'Faculty'])
+
+
+const Model = require('./AbstractModel')
+class UserToken extends Model {
+    static get tableName() {
+        return 'user_tokens';
     }
-});
+}
+module.exports = UserToken

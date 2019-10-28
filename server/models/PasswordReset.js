@@ -1,7 +1,9 @@
-const bookshelf = require('../bookshelf')
-module.exports = bookshelf.model('PasswordReset', {
-    tableName: 'password_resets',
-    user() {
-        return this.morphOne('user', ['user_id', 'user_type'], ['Student', 'Faculty'])
+
+
+const Model = require('./AbstractModel')
+class PasswordReset extends Model {
+    static get tableName() {
+        return 'password_resets';
     }
-});
+}
+module.exports = PasswordReset

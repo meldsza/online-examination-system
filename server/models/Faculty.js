@@ -1,10 +1,49 @@
-const bookshelf = require('../bookshelf')
-module.exports = bookshelf.model('Faculty', {
-    tableName: 'faculties',
-    permissions() {
-        return this.belongsToMany('Permission', 'administrators');
-    },
-    groups() {
-        return this.belongsToMany('Group', 'group_faculty')
+const Model = require('./AbstractModel')
+class Faculty extends Model {
+    static get tableName() {
+        return 'faculties';
     }
-});
+    static get relationMappings() {
+        return {
+            groups: {
+                relation: Model.ManyToManyRelation,
+                modelClass: 'Group',
+                join: {
+                    from: 'faculties.id',
+                    through: {
+                        from: 'group_faculty.faulty_id',
+                        to: 'group_faculty.group_id'
+                    },
+                    to: 'groups.id'
+                }
+            },
+            permissions: {
+                relation: Model.ManyToManyRelation,
+                modelClass: 'Permission',
+                join: {
+                    from: 'faculties.id',
+                    through: {
+                        from: 'administrators.faulty_id',
+                        to: 'administrators.permission_id'
+                    },
+                    to: 'permissions.id'
+                }
+            },
+            tests: {
+                relation: Model.ManyToManyRelation,
+                modelClass: 'Test',
+                join: {
+                    from: 'faculties.id',
+                    through: {
+
+                        from: 'faculty_test.faculty_id',
+                        to: 'faculty_test.test_id'
+                    },
+                    to: 'tests.id'
+                }
+            },
+        };
+    }
+}
+
+module.exports = Faculty

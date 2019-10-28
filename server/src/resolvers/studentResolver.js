@@ -1,19 +1,25 @@
 const Student = require('../../models/Student')
 module.exports = {
     async all(obj, args) {
-        let query = Student;
+        let query = Student.query();
         if (args.name)
             query.where('name', 'LIKE', '%' + args.name + '%');
 
 
-        return await query.fetchPage({
-            pageSize: args.limit,
-            page: args.page
-        })
+        let res = await query.page(args.page || 0, args.limit || 1000)
+        return res.results
 
 
     },
     async get(obj, args) {
-        return await Student.where({ 'id': args.id }).fetch();
+        let s = await Student.query().where({ 'id': args.id });
+        console.log(s)
+        return s;
+    },
+    async getGroups(obj) {
+        return await obj.$relatedQuery('groups')
+    },
+    async getAttempts(obj) {
+        return await obj.$relatedQuery('attempts')
     }
 }
