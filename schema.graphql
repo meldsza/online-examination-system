@@ -42,6 +42,7 @@ type Course@cacheControl(maxAge: 240){
     id: ID!
     code: String!
     name: String!
+    tests: [Test!]
     created_at: DateTime!
     updated_at: DateTime!
 }

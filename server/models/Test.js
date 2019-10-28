@@ -13,6 +13,14 @@ class Test extends Model {
                     to: 'courses.id'
                 }
             },
+            questions: {
+                relation: Model.HasManyRelation,
+                modelClass: 'Question',
+                join: {
+                    from: 'tests.id',
+                    to: 'questions.test_id'
+                }
+            },
             groups: {
                 relation: Model.ManyToManyRelation,
                 modelClass: 'Group',

@@ -13,6 +13,14 @@ class Question extends Model {
                     from: 'question.test_id',
                     to: 'tests.id'
                 }
+            },
+            student_answers: {
+                relation: Model.HasManyRelation,
+                modelClass: 'Answer',
+                join: {
+                    from: 'questions.id',
+                    to: 'answers.question_id'
+                }
             }
         };
     }

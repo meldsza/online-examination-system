@@ -10,5 +10,20 @@ module.exports = {
     },
     async get(obj, args) {
         return await Test.query().where({ 'id': args.id });
+    },
+    async getFaculties(obj) {
+        return await obj.$relatedQuery('faculties')
+    },
+    async getQuestions(obj) {
+        return await obj.$relatedQuery('questions')
+    },
+    async getGroups(obj) {
+        return await obj.$relatedQuery('groups')
+    },
+    async getAttempts(obj) {
+        return await obj.$relatedQuery('attempts')
+    },
+    async getCourse(obj) {
+        return await obj.$relatedQuery('course')
     }
 }
