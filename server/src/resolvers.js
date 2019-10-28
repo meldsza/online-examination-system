@@ -3,6 +3,7 @@ const facultyResolver = require('./resolvers/facultyResolver')
 const testResolver = require('./resolvers/testResolver')
 const courseResolver = require('./resolvers/courseResolver')
 const groupResolver = require('./resolvers/groupResolver')
+const questionResolver = require('./resolvers/questionResolver')
 module.exports = {
     Query: {
         faculties: facultyResolver.all,
@@ -14,7 +15,8 @@ module.exports = {
         courses: courseResolver.all,
         course: courseResolver.get,
         group: groupResolver.get,
-        groups: groupResolver.all
+        groups: groupResolver.all,
+        question: questionResolver.get
     },
     Faculty: {
         groups: facultyResolver.getGroups,
@@ -39,5 +41,9 @@ module.exports = {
         students: groupResolver.getStudents,
         faculties: groupResolver.getFaculties,
         tests: groupResolver.getTests
+    },
+    Question: {
+        test: questionResolver.getTest,
+        student_answers: questionResolver.getStudentAnswers
     }
 }
