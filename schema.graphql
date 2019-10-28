@@ -9,9 +9,10 @@ enum CacheControlScope {
 }
 scalar Date
 scalar DateTime
+scalar JSON
 type TestSetting@cacheControl(maxAge: 240){
     name: String!
-    value: String!
+    value: JSON!
 }
 type Student@cacheControl(maxAge: 240){
     id: ID!
@@ -152,7 +153,7 @@ type Mutation {
     removeStudentFromGroup(groupID:ID! studentID: ID!): Group!
     createTest(name: String! ): Test!
     updateTestName(id:ID! name: String!): Test!
-    updateTestSetting(id:ID! settingID: ID!): Test!
+    updateTestSetting(id:ID! settingName: String!, settingValue: JSON!): Test!
     addFacultyToTest(testID:ID! facultyID: ID!): Test!
     removeFacultyFromTest(testID:ID! facultyID: ID!): Test!
     addGroupToTest(testID:ID! groupID:ID!): Test!
