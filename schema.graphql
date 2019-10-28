@@ -1,5 +1,5 @@
 directive @cacheControl(
-    maxAge: Int,
+    maxAge: Int
     scope: CacheControlScope
 ) on OBJECT | FIELD | FIELD_DEFINITION
 
@@ -19,6 +19,7 @@ type Student@cacheControl(maxAge: 240){
     username: String!
     usn: String!
     groups: [Group!]
+    attempts:[Attempt!]
     email: String
     dob: Date
     created_at: DateTime!
@@ -30,7 +31,7 @@ type Faculty@cacheControl(maxAge: 240){
     name: String!
     username: String!
     designation: String!
-    permssions: [Permission!]
+    permissions: [Permission!]
     email: String
     groups: [Group!]
     created_at: DateTime!

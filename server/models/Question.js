@@ -1,10 +1,21 @@
-const bookshelf = require('../bookshelf')
-module.exports = bookshelf.model('Question', {
-    tableName: 'questions',
-    test() {
-        return this.belongsTo('Test')
-    },
-    attempts() {
-        return this.hasMany('Attempt')
+
+const Model = require('./AbstractModel')
+class Question extends Model {
+    static get tableName() {
+        return 'questions';
     }
-});
+    static get relationMappings() {
+        return {
+            test: {
+                relation: Model.BelongsToOneRelation,
+                modelClass: 'Test',
+                join: {
+                    from: 'question.test_id',
+                    to: 'tests.id'
+                }
+            }
+        };
+    }
+}
+
+module.exports = Question
