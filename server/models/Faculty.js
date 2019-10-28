@@ -17,18 +17,6 @@ class Faculty extends Model {
                     to: 'groups.id'
                 }
             },
-            permissions: {
-                relation: Model.ManyToManyRelation,
-                modelClass: 'Permission',
-                join: {
-                    from: 'faculties.id',
-                    through: {
-                        from: 'administrators.faulty_id',
-                        to: 'administrators.permission_id'
-                    },
-                    to: 'permissions.id'
-                }
-            },
             tests: {
                 relation: Model.ManyToManyRelation,
                 modelClass: 'Test',

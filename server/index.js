@@ -1,6 +1,7 @@
 const cors = require('cors')
 const morgan = require('morgan');
 const db = require('./src/db');
+const permissionDirective = require('./src/directives/permissionDirective')
 const express = require('express');
 const { ApolloServer, AuthenticationError } = require('apollo-server-express')
 const schema = require('./src/schema');
@@ -24,6 +25,9 @@ function initalizeServer(app) {
         playground: true,
         typeDefs: schema,
         resolvers,
+        schemaDirectives: {
+            permission: permissionDirective,
+        },
         formatError: error => {
             return {
                 ...error,

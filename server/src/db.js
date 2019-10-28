@@ -13,7 +13,6 @@ class DB extends DataSource {
         this.Test = require('../models/Test')
         this.Question = require('../models/Question')
         this.AppSetting = require('../models/AppSetting')
-        this.Permission = require('../models/Permission')
         this.PasswordReset = require('../models/PasswordReset')
         this.UserToken = require('../models/UserToken')
     }

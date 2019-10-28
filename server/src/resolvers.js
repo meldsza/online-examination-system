@@ -4,6 +4,10 @@ const testResolver = require('./resolvers/testResolver')
 const courseResolver = require('./resolvers/courseResolver')
 const groupResolver = require('./resolvers/groupResolver')
 const questionResolver = require('./resolvers/questionResolver')
+const attemptResolver = require('./resolvers/attemptResolver')
+const facultyMutators = require('./mutators/facultyMutator')
+const studentMutators = require('./mutators/studentMutator')
+
 module.exports = {
     Query: {
         faculties: facultyResolver.all,
@@ -20,7 +24,7 @@ module.exports = {
     },
     Faculty: {
         groups: facultyResolver.getGroups,
-        permissions: facultyResolver.getPermissions
+        tests: facultyResolver.getTests
     },
     Student: {
         groups: studentResolver.getGroups,
@@ -30,7 +34,7 @@ module.exports = {
         groups: testResolver.getGroups,
         attempts: testResolver.getAttempts,
         faculties: testResolver.getFaculties,
-        courses: testResolver.getCourse
+        course: testResolver.getCourse
     },
     Course: {
         tests: courseResolver.getTests
@@ -45,5 +49,13 @@ module.exports = {
     Question: {
         test: questionResolver.getTest,
         student_answers: questionResolver.getStudentAnswers
+    },
+    Attempt: {
+        student: attemptResolver.getStudent,
+        answers: attemptResolver.getAnswers
+    },
+    Mutation: {
+        ...facultyMutators,
+        ...studentMutators
     }
 }

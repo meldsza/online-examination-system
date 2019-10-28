@@ -7,6 +7,16 @@ enum CacheControlScope {
     PUBLIC
     PRIVATE
 }
+directive @permission(
+  requires: Permission = MANAGE_APPLICATION,
+) on OBJECT | FIELD_DEFINITION
+
+enum Permission {
+  MANAGE_APPLICATION
+  MANAGE_STUDENTS
+  MANAGE_FACULTY
+}
+
 scalar Date
 scalar DateTime
 scalar JSON
@@ -32,7 +42,8 @@ type Faculty@cacheControl(maxAge: 240){
     name: String!
     username: String!
     designation: String!
-    permissions: [Permission!]
+    permissions: [String!]
+    tests: [Test!]
     email: String
     groups: [Group!]
     created_at: DateTime!
@@ -75,6 +86,7 @@ type Question@cacheControl(maxAge: 240){
     qno: Int!
     student_answers: [Answer!]
     schema: QuestionSchema!
+    test: Test!
     created_at: DateTime!
     updated_at: DateTime!
 }
@@ -102,22 +114,19 @@ type Answer{
     data: String!
     created_at: DateTime!
     updated_at: DateTime!
+    marks: Float
 }
 
 type Attempt@cacheControl(maxAge: 240){
     id: ID!
     student: Student!
     test: Test!
+    answers: [Answer!]
+    marks: Float
     created_at: DateTime!
     updated_at: DateTime!
 }
 
-type Permission@cacheControl(maxAge: 900){
-    id: ID!
-    name: String!
-    created_at: DateTime!
-    updated_at: DateTime!
-}
 enum User{
     Student
     Faculty
@@ -131,20 +140,19 @@ type Query {
   tests(limit:Int page:Int name:String): [Test!]
   groups(limit:Int page:Int name:String): [Group!]
   courses(limit:Int page:Int name:String): [Course!]
-  permissions(limit:Int page:Int name:String): [Permission!]
   question(id:ID!): Question
   test(id:ID!): Test
   answer(id:ID!): Answer
   attempt(id:ID!): Attempt
   course(id:ID!): Course
   group(id:ID!): Group
-  permission(id:ID!): Permission
 }
 type Mutation {
-    createFaculty(name: String! username: String! designation: String! email: String password: String!): Faculty!
-    createStudent(name: String! username: String! usn: String! email: String password: String! dob:Date): Student!
+    createFaculty(name: String! username: String! designation: String! email: String password: String! permissions: [String!] ): Faculty! @permission(requires:MANAGE_FACULTY)
+    createStudent(name: String! username: String! usn: String! email: String password: String! dob:Date): Student! @permission(requires:MANAGE_STUDENTS)
     updateFaculty(id:ID! name: String username: String designation: String email: String password: String): Faculty!
-    updateStudent(id:ID! name: String username: String usn: String email: String password: String dob:Date): Student!
+    updateFacultyPermissions(id:ID!, permissions: [String!]) : Faculty! @permission(requires:MANAGE_FACULTY)
+    updateStudent(id:ID! name: String username: String usn: String email: String password: String dob:Date): Student! @permission(requires:MANAGE_STUDENTS)
     createGroup(name: String! parentGroup:ID): Group!
     updateGroup(id:ID! name: String parentGroup:ID): Group!
     addFacultyToGroup(groupID:ID! facultyID: ID!): Group!

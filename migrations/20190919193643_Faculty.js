@@ -7,6 +7,7 @@ exports.up = function (knex) {
             table.string('username', 255).notNullable();
             table.string('email', 255).nullable().unique();
             table.string('password', 255).notNullable();
+            table.json('permissions');
             table.string('designation', 255).nullable();
             table.timestamps();
         })

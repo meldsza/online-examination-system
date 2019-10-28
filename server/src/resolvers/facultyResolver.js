@@ -15,7 +15,7 @@ module.exports = {
     async getGroups(obj) {
         return obj.$relatedQuery('groups')
     },
-    async getPermissions(obj) {
-        return await obj.$relatedQuery('permissions')
+    async getTests(obj) {
+        return obj.$relatedQuery('tests')
     }
 }
