@@ -87,7 +87,6 @@ type SubjectiveQuestion@cacheControl(maxAge: 300){
 type ObjectiveQuestion@cacheControl(maxAge: 300){
     description: String!
     options: [String!]
-    correct_option: Int
 }
 type CodingQuestion@cacheControl(maxAge: 300){
     problem_statement: String!
