@@ -13,7 +13,7 @@ module.exports = {
         return await Faculty.query().where({ 'id': args.id });
     },
     async getGroups(obj) {
-        return obj.$relatedQuery('faculties').where('id', obj.id)
+        return obj.$relatedQuery('groups')
     },
     async getPermissions(obj) {
         return await obj.$relatedQuery('permissions')
