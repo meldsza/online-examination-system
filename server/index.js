@@ -2,6 +2,7 @@ const cors = require('cors')
 const morgan = require('morgan');
 const db = require('./src/db');
 const permissionDirective = require('./src/directives/permissionDirective')
+const userTypeDirective = require('./src/directives/userTypeDirective')
 const express = require('express');
 const { ApolloServer, AuthenticationError } = require('apollo-server-express')
 const schema = require('./src/schema');
@@ -27,6 +28,7 @@ function initalizeServer(app) {
         resolvers,
         schemaDirectives: {
             permission: permissionDirective,
+            user_type: userTypeDirective
         },
         formatError: error => {
             return {
@@ -43,10 +45,13 @@ function initalizeServer(app) {
             if (!tu)
                 throw new AuthenticationError("Invalid token")
             let user;
-            if (tu.user_type == 'Faculty')
+            if (tu.user_type == 'Faculty') {
                 user = await db.Faculty.query().findById(tu.user_id);
-            else if (tu.user_type == 'Student')
+                user.type = "FACULTY"
+            } else if (tu.user_type == 'Student') {
                 user = await db.Student.query().findById(tu.user_id);
+                user.type = "STUDENT"
+            }
             else throw new AuthenticationError("Invalid token")
             // add the user to the context
             return { user };

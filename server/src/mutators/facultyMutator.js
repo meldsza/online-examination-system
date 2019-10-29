@@ -4,7 +4,7 @@ module.exports = {
         return await Faculty.query().insert(args)
     },
     async updateFaculty(parent, args, context) {
-        if (args.id == context.user.id)
+        if (args.id == context.user.id || context.user.permissions.includes("MANAGE_FACULTY"))
             return await Faculty.query().patchAndFetchById(args.id, args)
         else throw new Error("Forbidden")
     },

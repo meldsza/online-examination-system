@@ -7,6 +7,9 @@ const questionResolver = require('./resolvers/questionResolver')
 const attemptResolver = require('./resolvers/attemptResolver')
 const facultyMutators = require('./mutators/facultyMutator')
 const studentMutators = require('./mutators/studentMutator')
+const groupMutators = require('./mutators/groupMutator')
+const testMutators = require('./mutators/testMutator')
+const attemptMutators = require('./mutators/attemptMutator')
 
 module.exports = {
     Query: {
@@ -56,6 +59,9 @@ module.exports = {
     },
     Mutation: {
         ...facultyMutators,
-        ...studentMutators
+        ...studentMutators,
+        ...groupMutators,
+        ...testMutators,
+        ...attemptMutators
     }
 }

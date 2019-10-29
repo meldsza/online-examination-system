@@ -11,6 +11,13 @@ directive @permission(
   requires: Permission = MANAGE_APPLICATION,
 ) on OBJECT | FIELD_DEFINITION
 
+directive @user_type(
+  requires: UserType = FACULTY,
+) on OBJECT | FIELD_DEFINITION
+enum UserType {
+    FACULTY
+    STUDENT
+}
 enum Permission {
   MANAGE_APPLICATION
   MANAGE_STUDENTS
@@ -148,27 +155,24 @@ type Query {
   group(id:ID!): Group
 }
 type Mutation {
-    createFaculty(name: String! username: String! designation: String! email: String password: String! permissions: [String!] ): Faculty! @permission(requires:MANAGE_FACULTY)
-    createStudent(name: String! username: String! usn: String! email: String password: String! dob:Date): Student! @permission(requires:MANAGE_STUDENTS)
-    updateFaculty(id:ID! name: String username: String designation: String email: String password: String): Faculty!
-    updateFacultyPermissions(id:ID!, permissions: [String!]) : Faculty! @permission(requires:MANAGE_FACULTY)
-    updateStudent(id:ID! name: String username: String usn: String email: String password: String dob:Date): Student! @permission(requires:MANAGE_STUDENTS)
-    createGroup(name: String! parentGroup:ID): Group!
-    updateGroup(id:ID! name: String parentGroup:ID): Group!
-    addFacultyToGroup(groupID:ID! facultyID: ID!): Group!
-    removeFacultyFromGroup(groupID:ID! facultyID: ID!): Group!
-    addStudentToGroup(groupID:ID! studentID: ID!): Group!
-    removeStudentFromGroup(groupID:ID! studentID: ID!): Group!
-    createTest(name: String! ): Test!
-    updateTestName(id:ID! name: String!): Test!
-    updateTestSetting(id:ID! settingName: String!, settingValue: JSON!): Test!
-    addFacultyToTest(testID:ID! facultyID: ID!): Test!
-    removeFacultyFromTest(testID:ID! facultyID: ID!): Test!
-    addGroupToTest(testID:ID! groupID:ID!): Test!
-    removeGroupFromTest(testID:ID! groupID:ID!): Test!
-    deleteQuestion(testID:ID! questionID:ID!): Test!
-    updateQuestion(questionID:ID! qno:Int schema:QuestionSchema ): Test!
-    createQuestion(testID:ID! qno:Int! schema:QuestionSchema! ): Test!
-    attemptTest(testID:ID!): Attempt!
-    answerQuestion(attemptID:ID! questionID:ID! answer:String!): Test!
+    createFaculty(name: String! username: String! designation: String! email: String password: String! permissions: [String!] ): Faculty! @permission(requires:MANAGE_FACULTY) @user_type(requires:FACULTY)
+    createStudent(name: String! username: String! usn: String! email: String password: String! dob:Date): Student! @permission(requires:MANAGE_STUDENTS) @user_type(requires:FACULTY)
+    updateFaculty(id:ID! name: String username: String designation: String email: String password: String): Faculty! @user_type(requires:FACULTY)
+    updateFacultyPermissions(id:ID!, permissions: [String!]) : Faculty! @permission(requires:MANAGE_APPLICATION) @user_type(requires:FACULTY)
+    updateStudent(id:ID! name: String username: String usn: String email: String password: String dob:Date): Student! @permission(requires:MANAGE_STUDENTS) @user_type(requires:FACULTY)
+    createGroup(name: String! parentGroup:ID): Group! @user_type(requires:FACULTY)
+    updateGroup(id:ID! name: String parentGroup:ID): Group! @user_type(requires:FACULTY)
+    addFacultyToGroup(groupID:ID! facultyID: ID!): Group! @user_type(requires:FACULTY)
+    removeFacultyFromGroup(groupID:ID! facultyID: ID!): Group! @user_type(requires:FACULTY)
+    addStudentToGroup(groupID:ID! studentID: ID!): Group! @user_type(requires:FACULTY)
+    removeStudentFromGroup(groupID:ID! studentID: ID!): Group! @user_type(requires:FACULTY)
+    createTest(name: String! ): Test! @user_type(requires:FACULTY)
+    updateTest(id:ID! name: String! settings: JSON questions:JSON): Test! @user_type(requires:FACULTY)
+    addFacultyToTest(testID:ID! facultyID: ID!): Test! @user_type(requires:FACULTY)
+    removeFacultyFromTest(testID:ID! facultyID: ID!): Test! @user_type(requires:FACULTY)
+    addTestToGroup(groupID:ID! testID:ID! ): Group! @user_type(requires:FACULTY)
+    removeTestFromGroup(testID:ID! groupID:ID!): Test! @user_type(requires:FACULTY)
+    attemptTest(testID:ID!): Attempt! @user_type(requires:STUDENT)
+    answerQuestion(attemptID:ID! questionID:ID! data:String!): Answer! @user_type(requires:STUDENT)
+    evaluateAnswer(answerID:ID! marks:Float!): Answer! @user_type(requires:FACULTY)
 }
