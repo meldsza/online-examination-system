@@ -92,27 +92,10 @@ type Question@cacheControl(maxAge: 240){
     id: ID!
     qno: Int!
     student_answers: [Answer!]
-    schema: QuestionSchema!
+    schema: JSON!
     test: Test!
     created_at: DateTime!
     updated_at: DateTime!
-}
-enum QuestionSchema{
-    SubjectiveQuestion
-    ObjectiveQuestion
-    CodingQuestion
-}
-type SubjectiveQuestion@cacheControl(maxAge: 300){
-    description: String!
-}
-type ObjectiveQuestion@cacheControl(maxAge: 300){
-    description: String!
-    options: [String!]
-}
-type CodingQuestion@cacheControl(maxAge: 300){
-    problem_statement: String!
-    input_constraints: String!
-    samples: String!
 }
 type Answer{
     id: ID!
@@ -134,12 +117,8 @@ type Attempt@cacheControl(maxAge: 240){
     updated_at: DateTime!
 }
 
-enum User{
-    Student
-    Faculty
-}
 type Query {
-  me: User
+  me: JSON!
   student(id:ID!): Student
   faculty(id:ID!): Faculty
   students(limit:Int page:Int name:String): [Student!]

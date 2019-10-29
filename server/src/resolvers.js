@@ -23,7 +23,8 @@ module.exports = {
         course: courseResolver.get,
         group: groupResolver.get,
         groups: groupResolver.all,
-        question: questionResolver.get
+        question: questionResolver.get,
+        me: (_, __, context) => { return context.user }
     },
     Faculty: {
         groups: facultyResolver.getGroups,

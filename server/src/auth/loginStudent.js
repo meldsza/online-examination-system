@@ -5,7 +5,9 @@ const UserToken = require('../../models/UserToken')
 module.exports = async (req, res) => {
     if (!req.body.username || !req.body.password) reject(res)
     let fac = await Student.query().where('username', req.body.username)
-    if (!fac) reject(res)
+
+    if (fac.length == 0) reject(res)
+    fac = fac[0]
     if (await bcrypt.compare(req.body.password, fac.password)) {
         jwt.sign({ id: fac.id, type: 'STUDNET' }, process.env.JWT_KET || 'secret', {}, async (err, token) => {
             if (err) { res.status(500); return res.end(err) }
@@ -17,6 +19,6 @@ module.exports = async (req, res) => {
 
 }
 function reject(res) {
-    res.json({ message: 'Incorrect credentials' })
     res.status(401)
+    res.json({ message: 'Incorrect credentials' })
 }

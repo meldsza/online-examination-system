@@ -3,6 +3,9 @@ class Faculty extends Model {
     static get tableName() {
         return 'faculties';
     }
+    get $secureFields() {
+        return ['password'];
+    }
     static get relationMappings() {
         return {
             groups: {
@@ -31,6 +34,12 @@ class Faculty extends Model {
                 }
             },
         };
+    }
+    // omit stuff when creating json response from model
+    $formatJson(json, options) {
+        json = super.$formatJson(json, options);
+        this.$secureFields.map(field => delete json[field])
+        return json
     }
 }
 

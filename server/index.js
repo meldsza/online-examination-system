@@ -15,17 +15,10 @@ function createServer() {
     let app = express();
     initalizeServer(app);
     app.use(express.static('dist'))
+    //setupAuth(app)
     launchServer(app);
 }
 function initalizeServer(app) {
-    app.use(bodyParser.json()) // for parsing application/json
-    app.use(bodyParser.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
-    app.use(cors());
-    app.post('/auth/faculty/login', facultyLogin)
-    app.post('/auth/student/login', studentLogin)
-    app.use(morgan('dev'));
-
-
     const server = new ApolloServer({
         introspection: true,
         playground: true,
@@ -46,9 +39,10 @@ function initalizeServer(app) {
             if (!token.includes("Bearer")) throw new AuthenticationError("Invalid token")
             token = token.substring(7).trim()
             // try to retrieve a user with the token
-            const tu = await db.UserToken.where({ 'token': token })
-            if (!tu)
+            let tu = await db.UserToken.query().where({ 'token': token })
+            if (tu.length == 0)
                 throw new AuthenticationError("Invalid token")
+            tu = tu[0]
             let user;
             if (tu.user_type == 'FACULTY') {
                 user = await db.Faculty.query().findById(tu.user_id);
@@ -63,11 +57,23 @@ function initalizeServer(app) {
         },
         dataSources: () => ({ db })
     });
-    server.applyMiddleware({ app });
+    //app.use('/graphql', server.getMiddleware())
+    setupAuth(app)
+    server.applyMiddleware({ app, path: '/graphql' });
+}
+function setupAuth(app) {
+    app.use(bodyParser.json()) // for parsing application/json
+    app.use(bodyParser.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
+    app.use(cors())
+    app.use(morgan('dev'));
+    const authrouter = express.Router();
+    authrouter.post('/faculty/login', facultyLogin)
+    authrouter.post('/student/login', studentLogin)
+    app.use('/auth', authrouter)
 
 }
 function launchServer(app) {
-    const port = process.env.PORT || 8000;
+    const port = process.env.PORT || 4000;
 
     app.listen({ port }, () => {
         console.log(`Apollo Server on http://localhost:${port}/graphql`);
@@ -76,5 +82,6 @@ function launchServer(app) {
 module.exports = {
     launchServer,
     initalizeServer,
+    setupAuth,
     createServer
 }

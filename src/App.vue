@@ -1,32 +1,40 @@
+
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
-  </div>
+  <md-app md-mode="reveal">
+    <md-app-toolbar class="md-primary">
+      <md-button class="md-icon-button" @click="menuVisible = !menuVisible">
+        <md-icon>menu</md-icon>
+      </md-button>
+      <span class="md-title">OES</span>
+    </md-app-toolbar>
+
+    <md-app-drawer :md-active.sync="menuVisible">
+      <md-toolbar class="md-transparent" md-elevation="0"></md-toolbar>
+      <SideNav></SideNav>
+    </md-app-drawer>
+
+    <md-app-content>
+      <router-view></router-view>
+    </md-app-content>
+  </md-app>
 </template>
-
-<style lang="scss">
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+<script>
+export default {};
+</script>
+<style lang="scss" scoped>
+.md-app {
+  height: 100vh;
 }
-
-#nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
+.md-drawer {
+  max-width: 250px;
 }
 </style>
+
+<script>
+export default {
+  name: "App",
+  data: () => ({
+    menuVisible: false
+  })
+};
+</script>
