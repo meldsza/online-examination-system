@@ -4,9 +4,12 @@ const db = require('./src/db');
 const permissionDirective = require('./src/directives/permissionDirective')
 const userTypeDirective = require('./src/directives/userTypeDirective')
 const express = require('express');
+const bodyParser = require('body-parser')
 const { ApolloServer, AuthenticationError } = require('apollo-server-express')
 const schema = require('./src/schema');
 const resolvers = require('./src/resolvers');
+const facultyLogin = require('./src/auth/loginFaculty')
+const studentLogin = require('./src/auth/loginStudent')
 
 function createServer() {
     let app = express();
@@ -15,9 +18,11 @@ function createServer() {
     launchServer(app);
 }
 function initalizeServer(app) {
-
+    app.use(bodyParser.json()) // for parsing application/json
+    app.use(bodyParser.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
     app.use(cors());
-
+    app.post('/auth/faculty/login', facultyLogin)
+    app.post('/auth/student/login', studentLogin)
     app.use(morgan('dev'));
 
 
@@ -45,10 +50,10 @@ function initalizeServer(app) {
             if (!tu)
                 throw new AuthenticationError("Invalid token")
             let user;
-            if (tu.user_type == 'Faculty') {
+            if (tu.user_type == 'FACULTY') {
                 user = await db.Faculty.query().findById(tu.user_id);
                 user.type = "FACULTY"
-            } else if (tu.user_type == 'Student') {
+            } else if (tu.user_type == 'STUDENT') {
                 user = await db.Student.query().findById(tu.user_id);
                 user.type = "STUDENT"
             }
