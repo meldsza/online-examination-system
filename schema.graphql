@@ -27,7 +27,7 @@ enum Permission {
 scalar Date
 scalar DateTime
 scalar JSON
-type TestSetting@cacheControl(maxAge: 240){
+type TestSetting{
     name: String!
     value: JSON!
 }
@@ -40,7 +40,7 @@ interface User{
     created_at: DateTime!
     updated_at: DateTime!
 }
-type Student implements User @cacheControl(maxAge: 240){
+type Student implements User {
     id: ID!
     name: String!
     username: String!
@@ -53,7 +53,7 @@ type Student implements User @cacheControl(maxAge: 240){
     updated_at: DateTime!
 }
 
-type Faculty implements User @cacheControl(maxAge: 240){
+type Faculty implements User {
     id: ID!
     name: String!
     username: String!
@@ -66,7 +66,7 @@ type Faculty implements User @cacheControl(maxAge: 240){
     updated_at: DateTime!
 }
 
-type Course@cacheControl(maxAge: 240){
+type Course{
     id: ID!
     code: String!
     name: String!
@@ -75,7 +75,7 @@ type Course@cacheControl(maxAge: 240){
     updated_at: DateTime!
 }
 
-type Test@cacheControl(maxAge: 240){
+type Test{
     id: ID!
     course: Course!
     name: String!
@@ -87,7 +87,7 @@ type Test@cacheControl(maxAge: 240){
     created_at: DateTime!
     updated_at: DateTime!
 }
-type Group@cacheControl(maxAge: 240){
+type Group{
     id: ID!
     name: String!
     parent: Group
@@ -97,7 +97,7 @@ type Group@cacheControl(maxAge: 240){
     tests: [Test!]
 }
 
-type Question@cacheControl(maxAge: 240){
+type Question{
     id: ID!
     qno: Int!
     student_answers: [Answer!]
@@ -116,7 +116,7 @@ type Answer{
     marks: Float
 }
 
-type Attempt@cacheControl(maxAge: 240){
+type Attempt{
     id: ID!
     student: Student!
     test: Test!
@@ -127,20 +127,23 @@ type Attempt@cacheControl(maxAge: 240){
 }
 
 type Query {
-  me: User
-  student(id:ID!): Student
-  faculty(id:ID!): Faculty
-  students(limit:Int page:Int name:String): [Student!]
-  faculties(limit:Int page:Int name:String): [Faculty!]
-  tests(limit:Int page:Int name:String): [Test!]
-  groups(limit:Int page:Int name:String): [Group!]
-  courses(limit:Int page:Int name:String): [Course!]
-  question(id:ID!): Question
-  test(id:ID!): Test
-  answer(id:ID!): Answer
-  attempt(id:ID!): Attempt
-  course(id:ID!): Course
-  group(id:ID!): Group
+    testCount: Int!
+    facultyCount: Int!
+    studentCount: Int!
+    me: User
+    student(id:ID!): Student
+    faculty(id:ID!): Faculty
+    students(limit:Int page:Int name:String): [Student!]
+    faculties(limit:Int page:Int name:String): [Faculty!]
+    tests(limit:Int page:Int name:String): [Test!]
+    groups(limit:Int page:Int name:String): [Group!]
+    courses(limit:Int page:Int name:String): [Course!]
+    question(id:ID!): Question
+    test(id:ID!): Test
+    answer(id:ID!): Answer
+    attempt(id:ID!): Attempt
+    course(id:ID!): Course
+    group(id:ID!): Group
 }
 type Mutation {
     createFaculty(name: String! username: String! designation: String! email: String password: String! permissions: [String!] ): Faculty! @permission(requires:MANAGE_FACULTY) @user_type(requires:FACULTY)

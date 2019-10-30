@@ -22,8 +22,14 @@ const routes = [
 
   {
     path: '/faculty/createTest',
-    name: 'faculty.test.create',
+    name: 'faculty.tests.create',
     component: () => import('../views/faculty/CreateTest')
+  },
+
+  {
+    path: '/faculty/tests',
+    name: 'faculty.tests',
+    component: () => import('../views/faculty/Tests.vue')
   },
   {
     path: '/student',

@@ -3,34 +3,43 @@
     <md-card-header>
       <div class="md-title">Dashboard</div>
     </md-card-header>
-
     <md-card-content>
-      <div v-if="!!me">
-        <md-card :key="test.id" v-for="test in me.tests">
-          <md-card-header>
-            <div class="md-title">{{test.name}}</div>
-            <md-card-content></md-card-content>
-          </md-card-header>
-        </md-card>
-      </div>
+      <md-list>
+        <md-list-item>
+          <span class="md-list-item-text">Student</span>
+          <md-badge class="md-primary" :md-content="studentCount" />
+        </md-list-item>
+        <md-list-item>
+          <span class="md-list-item-text">Faculty</span>
+          <md-badge class="md-primary" :md-content="facultyCount" />
+        </md-list-item>
+        <md-list-item>
+          <span class="md-list-item-text">Test</span>
+          <md-badge class="md-primary" :md-content="testCount" />
+        </md-list-item>
+      </md-list>
     </md-card-content>
   </md-card>
 </template>
 
 <script>
 import gql from "graphql-tag";
+
 export default {
   apollo: {
-    me: gql`
+    testCount: gql`
       query {
-        me {
-          ... on Faculty {
-            tests {
-              id
-              name
-            }
-          }
-        }
+        testCount
+      }
+    `,
+    facultyCount: gql`
+      query {
+        facultyCount
+      }
+    `,
+    studentCount: gql`
+      query {
+        studentCount
       }
     `
   }

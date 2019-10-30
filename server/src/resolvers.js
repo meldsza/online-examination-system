@@ -10,6 +10,7 @@ const studentMutators = require('./mutators/studentMutator')
 const groupMutators = require('./mutators/groupMutator')
 const testMutators = require('./mutators/testMutator')
 const attemptMutators = require('./mutators/attemptMutator')
+const countResolvers = require('./resolvers/countResolvers')
 
 module.exports = {
     Query: {
@@ -24,6 +25,7 @@ module.exports = {
         group: groupResolver.get,
         groups: groupResolver.all,
         question: questionResolver.get,
+        ...countResolvers,
         me: (_, __, context) => { return context.user }
     },
     User: {

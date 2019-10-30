@@ -17,14 +17,14 @@ const defaultOptions = {
   httpEndpoint,
   // You can use `wss` for secure connection (recommended in production)
   // Use `null` to disable subscriptions
-  wsEndpoint: null,//process.env.VUE_APP_GRAPHQL_WS || 'ws://localhost:4000/graphql',
+  wsEndpoint: null,// process.env.VUE_APP_GRAPHQL_WS || 'ws://localhost:4000/graph',
   // LocalStorage token
   tokenName: AUTH_TOKEN,
   // Enable Automatic Query persisting with Apollo Engine
-  persisting: false,
+  persisting: true,
   // Use websockets for everything (no HTTP)
   // You need to pass a `wsEndpoint` for this to work
-  websocketsOnly: false,
+  websocketsOnly: true,
   // Is being rendered on the server?
   ssr: false,
 
@@ -44,7 +44,17 @@ const defaultOptions = {
 
   // Client local data (see apollo-link-state)
 
-
+  watchQuery: {
+    fetchPolicy: 'no-cache',
+    errorPolicy: 'ignore',
+  },
+  query: {
+    fetchPolicy: 'no-cache',
+    errorPolicy: 'all',
+  },
+  mutate: {
+    errorPolicy: 'all',
+  },
 }
 
 // Call this in the Vue app file

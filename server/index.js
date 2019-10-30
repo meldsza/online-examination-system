@@ -1,6 +1,7 @@
 const cors = require('cors')
 const morgan = require('morgan');
 const db = require('./src/db');
+const http = require('http')
 const permissionDirective = require('./src/directives/permissionDirective')
 const userTypeDirective = require('./src/directives/userTypeDirective')
 const express = require('express');
@@ -10,6 +11,8 @@ const schema = require('./src/schema');
 const resolvers = require('./src/resolvers');
 const facultyLogin = require('./src/auth/loginFaculty')
 const studentLogin = require('./src/auth/loginStudent')
+
+let server;
 async function verifyToken(token) {
     let tu = await db.UserToken.query().where({ 'token': token })
     if (tu.length == 0)
@@ -29,13 +32,16 @@ async function verifyToken(token) {
 }
 function createServer() {
     let app = express();
-    initalizeServer(app);
+
+
+
+    const httpServer = initalizeServer(app);
     //app.use(express.static('dist'))
     //setupAuth(app)
-    launchServer(app);
+    launchServer(httpServer);
 }
 function initalizeServer(app) {
-    const server = new ApolloServer({
+    server = new ApolloServer({
         introspection: true,
         playground: true,
         typeDefs: schema,
@@ -58,8 +64,12 @@ function initalizeServer(app) {
                 ...error,
             };
         },
-        context: async ({ req }) => {
+        context: async ({ req, connection }) => {
             // get the user token from the headers
+            if (connection) {
+                // check connection for metadata
+                return connection.context;
+            }
             let token = req.headers.authorization || '';
             if (!token.includes("Bearer")) throw new AuthenticationError("Invalid token")
             token = token.substring(7).trim()
@@ -72,6 +82,9 @@ function initalizeServer(app) {
     //app.use('/graphql', server.getMiddleware())
     setupAuth(app)
     server.applyMiddleware({ app, path: '/graphql' });
+    const httpServer = http.createServer(app);
+    server.installSubscriptionHandlers(httpServer);
+    return httpServer
 }
 function setupAuth(app) {
     app.use(bodyParser.json()) // for parsing application/json
@@ -84,11 +97,12 @@ function setupAuth(app) {
     app.use('/auth', authrouter)
 
 }
-function launchServer(app) {
+function launchServer(httpServer) {
     const port = process.env.PORT || 4000;
 
-    app.listen({ port }, () => {
-        console.log(`Apollo Server on http://localhost:${port}/graphql`);
+    httpServer.listen({ port }, () => {
+        console.log(`Apollo Server on http://localhost:${port}/${server.graphqlPath}`);
+        console.log(`🚀 Subscriptions ready at ws://localhost:${port}${server.subscriptionsPath}`)
     });
 }
 module.exports = {

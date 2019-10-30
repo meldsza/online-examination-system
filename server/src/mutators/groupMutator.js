@@ -2,7 +2,7 @@ const Group = require('../../models/Group')
 module.exports = {
     async createGroup(parent, args, context) {
         let group = await Group.query().insert(args)
-        await group.$appendRelated('faculties', context.user.id)
+        await group.$relatedQuery('faculties').relate(context.user.id)
         return await group.$query()
     },
     async updateGroup(parent, args, context) {
@@ -14,7 +14,7 @@ module.exports = {
     async addFacultyToGroup(parent, args, context) {
         let group = await Group.query().findById(args.groupID).eager('faculties');
         if (group.faculties.find(f => (f.id == context.user.id)))
-            await group.$appendRelated('faculties', args.facultyID)
+            await group.$relatedQuery('faculties').relate(args.facultyID)
         return await group.$query()
     },
     async removeFacultyFromGroup(parent, args, context) {
@@ -26,7 +26,7 @@ module.exports = {
     async addStudentToGroup(parent, args, context) {
         let group = await Group.query().findById(args.groupID).eager('faculties');
         if (group.faculties.find(f => (f.id == context.user.id)))
-            await group.$appendRelated('students', args.studentID)
+            await group.$relatedQuery('students').append(args.studentID)
         return await group.$query()
     },
     async removeStudentFromGroup(parent, args, context) {
