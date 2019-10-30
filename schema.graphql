@@ -31,7 +31,16 @@ type TestSetting@cacheControl(maxAge: 240){
     name: String!
     value: JSON!
 }
-type Student@cacheControl(maxAge: 240){
+interface User{
+    id: ID!
+    name: String!
+    username: String!
+    email: String
+    groups: [Group!]
+    created_at: DateTime!
+    updated_at: DateTime!
+}
+type Student implements User @cacheControl(maxAge: 240){
     id: ID!
     name: String!
     username: String!
@@ -44,7 +53,7 @@ type Student@cacheControl(maxAge: 240){
     updated_at: DateTime!
 }
 
-type Faculty@cacheControl(maxAge: 240){
+type Faculty implements User @cacheControl(maxAge: 240){
     id: ID!
     name: String!
     username: String!
@@ -118,7 +127,7 @@ type Attempt@cacheControl(maxAge: 240){
 }
 
 type Query {
-  me: JSON!
+  me: User!
   student(id:ID!): Student
   faculty(id:ID!): Faculty
   students(limit:Int page:Int name:String): [Student!]

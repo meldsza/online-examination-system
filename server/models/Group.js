@@ -14,7 +14,7 @@ class Group extends Model {
                     through: {
 
                         from: 'group_faculty.group_id',
-                        to: 'group_faculty.faulty_id'
+                        to: 'group_faculty.faculty_id'
                     },
                     to: 'faculties.id',
                 }

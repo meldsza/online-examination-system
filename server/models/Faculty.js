@@ -14,7 +14,7 @@ class Faculty extends Model {
                 join: {
                     from: 'faculties.id',
                     through: {
-                        from: 'group_faculty.faulty_id',
+                        from: 'group_faculty.faculty_id',
                         to: 'group_faculty.group_id'
                     },
                     to: 'groups.id'

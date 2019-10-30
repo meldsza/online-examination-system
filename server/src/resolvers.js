@@ -26,6 +26,17 @@ module.exports = {
         question: questionResolver.get,
         me: (_, __, context) => { return context.user }
     },
+    User: {
+        __resolveType(obj, context, info) {
+            if (obj.type == 'FACULTY') {
+                return 'Faculty';
+            }
+            else if (obj.type == 'STUDENT') {
+                return 'Student';
+            }
+            return null;
+        },
+    },
     Faculty: {
         groups: facultyResolver.getGroups,
         tests: facultyResolver.getTests
