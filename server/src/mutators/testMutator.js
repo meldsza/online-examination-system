@@ -2,7 +2,7 @@ const Test = require('../../models/Test')
 module.exports = {
     async createTest(parent, args, context) {
         let test = await Test.query().insert(args)
-        await test.$appendRelated('faculties', context.user.id)
+        await test.$appendRelated('faculties', context.user)
         return await test.$query();
 
     },

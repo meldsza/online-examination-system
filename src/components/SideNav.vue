@@ -7,16 +7,17 @@
     </md-list-item>
   </md-list>
   <md-list v-else-if="me.__typename == 'Faculty'">
-    <md-list-item to="/faculty/dashboard">
+    <md-list-item to="/faculty">
       <span class="md-list-item-text">Dashboard</span>
     </md-list-item>
+    <md-list-item to="/faculty/createTest">Create Tests</md-list-item>
 
     <md-list-item @click="logout">
       <span class="md-list-item-text">Logout</span>
     </md-list-item>
   </md-list>
   <md-list v-else-if="me.__typename == 'Student'">
-    <md-list-item to="/student/dashboard">
+    <md-list-item to="/student">
       <span class="md-list-item-text">Dashboard</span>
     </md-list-item>
 
@@ -27,6 +28,7 @@
 </template>
 
 <script>
+import { onLogout } from "@/vue-apollo";
 import gql from "graphql-tag";
 export default {
   name: "SideNav",
@@ -43,7 +45,9 @@ export default {
     `
   },
   methods: {
-    logout() {}
+    logout() {
+      onLogout(this.$apollo.provider.defaultClient);
+    }
   }
 };
 </script>

@@ -13,6 +13,23 @@ const routes = [
     name: 'student.login',
     component: () => import('../views/login/StudentLogin.vue')
   }
+  ,
+  {
+    path: '/faculty',
+    name: 'faculty.dashboard',
+    component: () => import('../views/faculty/Dashboard')
+  },
+
+  {
+    path: '/faculty/createTest',
+    name: 'faculty.test.create',
+    component: () => import('../views/faculty/CreateTest')
+  },
+  {
+    path: '/student',
+    name: 'student.dashboard',
+    component: () => import('../views/student/Dashboard')
+  }
 ]
 
 const router = new VueRouter({

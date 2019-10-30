@@ -154,7 +154,7 @@ type Mutation {
     removeFacultyFromGroup(groupID:ID! facultyID: ID!): Group! @user_type(requires:FACULTY)
     addStudentToGroup(groupID:ID! studentID: ID!): Group! @user_type(requires:FACULTY)
     removeStudentFromGroup(groupID:ID! studentID: ID!): Group! @user_type(requires:FACULTY)
-    createTest(name: String! ): Test! @user_type(requires:FACULTY)
+    createTest(name: String! course_id:ID! ): Test! @user_type(requires:FACULTY)
     updateTest(id:ID! name: String! settings: JSON questions:JSON): Test! @user_type(requires:FACULTY)
     addFacultyToTest(testID:ID! facultyID: ID!): Test! @user_type(requires:FACULTY)
     removeFacultyFromTest(testID:ID! facultyID: ID!): Test! @user_type(requires:FACULTY)

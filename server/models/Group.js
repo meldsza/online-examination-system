@@ -37,10 +37,10 @@ class Group extends Model {
                 modelClass: 'Group',
                 join: {
                     from: 'groups.id',
-                    to: 'groups.parent_id'
+                    to: 'groups.parent_group'
                 }
             },
-            test: {
+            tests: {
                 relation: Model.ManyToManyRelation,
                 modelClass: 'Test',
                 join: {
@@ -57,7 +57,7 @@ class Group extends Model {
                 relation: Model.BelongsToOneRelation,
                 modelClass: 'Group',
                 join: {
-                    from: 'groups.parent_id',
+                    from: 'groups.parent_group',
                     to: 'groups.id'
                 }
             }
