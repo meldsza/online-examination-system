@@ -45,7 +45,6 @@
 
 <script>
 import axios from "@/axios";
-import gql from "graphql-tag";
 import { onLogin } from "@/vue-apollo";
 export default {
   data() {
@@ -61,17 +60,7 @@ export default {
         .post("/faculty/login", this.form)
         .then(res => {
           onLogin(this.$apollo.provider.defaultClient, res.data.token);
-          this.$apollo.mutate({
-            mutation: gql`
-              mutation($label: Boolean!) {
-                connectedSet(value: $value) @client
-              }
-            `,
 
-            variables: {
-              value: true
-            }
-          });
           this.$router.push("/");
         })
         .catch(err => {

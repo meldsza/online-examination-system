@@ -127,7 +127,7 @@ type Attempt@cacheControl(maxAge: 240){
 }
 
 type Query {
-  me: User!
+  me: User
   student(id:ID!): Student
   faculty(id:ID!): Faculty
   students(limit:Int page:Int name:String): [Student!]

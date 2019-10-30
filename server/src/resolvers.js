@@ -27,7 +27,7 @@ module.exports = {
         me: (_, __, context) => { return context.user }
     },
     User: {
-        __resolveType(obj, context, info) {
+        __resolveType(obj) {
             if (obj.type == 'FACULTY') {
                 return 'Faculty';
             }
