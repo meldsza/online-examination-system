@@ -1,25 +1,46 @@
 <template>
-  <md-table v-if="!!me" v-model="me.tests" md-sort="updated_at" md-sort-order="desc" md-card>
-    <md-table-toolbar>
-      <h1 class="md-title">Tests</h1>
-    </md-table-toolbar>
-    <md-table-toolbar slot="md-table-alternate-header">
-      <div class="md-toolbar-section-start">Selected</div>
-
-      <div class="md-toolbar-section-end">
-        <md-button class="md-icon-button">
-          <md-icon>delete</md-icon>
-        </md-button>
-      </div>
-    </md-table-toolbar>
-
-    <md-table-row slot="md-table-row" slot-scope="{ item }" md-selectable="single" md-auto-select>
-      <md-table-cell md-label="ID" md-numeric>{{ item.id }}</md-table-cell>
-      <md-table-cell md-label="Name" md-sort-by="name">{{ item.name }}</md-table-cell>
-      <md-table-cell md-label="Created at" md-sort-by="created_at">{{ item.created_at }}</md-table-cell>
-      <md-table-cell md-label="Updated at" md-sort-by="updated_at">{{ item.updated_at }}</md-table-cell>
-    </md-table-row>
-  </md-table>
+  <md-card>
+    <md-card-content>
+      <md-toolbar md-elevation="0">
+        <div class="md-toolbar-section-start">
+          <h1 class="md-title">Tests</h1>
+        </div>
+        <div class="md-toolbar-section-end">
+          <div v-show="selected">
+            <md-button class="md-icon-button md-accent md-raised" @click="deleteTest">
+              <md-icon>delete</md-icon>
+            </md-button>
+          </div>
+        </div>
+      </md-toolbar>
+      <md-table
+        v-if="!!me"
+        v-model="me.tests"
+        @md-selected="onSelect"
+        md-sort="created_at"
+        md-sort-order="desc"
+      >
+        <md-table-row
+          slot="md-table-row"
+          slot-scope="{ item }"
+          :class="getClass(item.id)"
+          md-selectable="single"
+          md-auto-select
+        >
+          <md-table-cell md-label="ID" md-sort-by="id" md-numeric>{{ item.id }}</md-table-cell>
+          <md-table-cell md-label="Name" md-sort-by="name">{{ item.name }}</md-table-cell>
+          <md-table-cell
+            md-label="Created at"
+            md-sort-by="created_at"
+          >{{ (new Date(item.created_at)).toUTCString() }}</md-table-cell>
+          <md-table-cell
+            md-label="Updated at"
+            md-sort-by="updated_at"
+          >{{ (new Date(item.updated_at)).toUTCString() }}</md-table-cell>
+        </md-table-row>
+      </md-table>
+    </md-card-content>
+  </md-card>
 </template>
 
 <script>
@@ -42,8 +63,24 @@ export default {
       }
     `
   },
+  data() {
+    return {
+      searchName: null,
+      selected: null
+    };
+  },
   mounted() {
     this.$apollo.queries.me.refresh();
+  },
+  methods: {
+    getClass(id) {
+      return { "md-primary": id == this.selected };
+    },
+    onSelect(item) {
+      if (!item) return (this.selected = null);
+      this.selected = item.id;
+    },
+    deleteTest() {}
   }
 };
 </script>

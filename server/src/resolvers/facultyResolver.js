@@ -5,7 +5,7 @@ module.exports = {
         if (args.name)
             query.where('name', 'LIKE', '%' + args.name + '%');
 
-        let res = await query.page(args.page || 0, args.limit || 1000)
+        let res = await query.orderBy('created_at', 'desc').page(args.page || 0, args.limit || 1000)
         return res.results
 
     },

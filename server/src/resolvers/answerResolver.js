@@ -1,7 +1,7 @@
 const Answer = require('../../models/Answer')
 module.exports = {
     async get(obj, args) {
-        return await Answer.query().where({ 'id': args.id });
+        return await Answer.query().orderBy('created_at', 'desc').where({ 'id': args.id });
     },
     async getAttempt(obj) {
         return await obj.$relatedQuery('attempt')
