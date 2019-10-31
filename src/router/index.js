@@ -25,7 +25,11 @@ const routes = [
     name: 'faculty.tests.create',
     component: () => import('../views/faculty/CreateTest')
   },
-
+  {
+    path: '/faculty/editTest/:id',
+    name: 'faculty.tests.edit',
+    component: () => import('../views/faculty/EditTest')
+  },
   {
     path: '/faculty/tests',
     name: 'faculty.tests',

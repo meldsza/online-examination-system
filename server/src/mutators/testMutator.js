@@ -1,4 +1,5 @@
 const Test = require('../../models/Test')
+const Question = require('../../models/Question')
 module.exports = {
     async createTest(parent, args, context) {
         args.settings = {}
@@ -12,7 +13,31 @@ module.exports = {
         if (userTests.find(g => g.id == args.id) || context.user.permissions.includes("MANAGE_APPLICATION"))
             await Test.query().upsertGraph(args)
         else throw new Error("Forbidden")
-        return await Test.query();
+        return await Test.query().findById(args.id);
+    },
+    async saveTestSettings(parent, args, context) {
+        let userTests = await context.user.$relatedQuery('tests')
+        if (userTests.find(g => g.id == args.id) || context.user.permissions.includes("MANAGE_APPLICATION"))
+            await Test.query().upsertGraph(args)
+        else throw new Error("Forbidden")
+        return await Test.query().findById(args.id);
+    },
+    async addQuestion(parent, args, context) {
+        let test = await Test.query().findById(args.id)
+        let userTests = await context.user.$relatedQuery('tests')
+        if (userTests.find(g => g.id == test.id) || context.user.permissions.includes("MANAGE_APPLICATION"))
+            await test.$relatedQuery('questions').insert(args)
+        else throw new Error("Forbidden")
+        return await test.$query();
+    },
+    async saveQuestion(parent, args, context) {
+        let question = await Question.query().findById(args.id)
+        let test = await question.$relatedQuery('test')
+        let userTests = await context.user.$relatedQuery('tests')
+        if (userTests.find(g => g.id == test.id) || context.user.permissions.includes("MANAGE_APPLICATION"))
+            return await Question.query().patchAndFetchById(args.id, args)
+        else throw new Error("Forbidden")
+        // return await question.$query();
     },
     async addFacultyToTest(parent, args, context) {
         let userTests = await context.user.$relatedQuery('tests')

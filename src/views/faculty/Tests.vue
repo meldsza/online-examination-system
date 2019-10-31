@@ -6,7 +6,16 @@
           <h1 class="md-title">Tests</h1>
         </div>
         <div class="md-toolbar-section-end">
+          <md-button class="md-icon-button md-accent md-raised" to="/faculty/createTest">
+            <md-icon>add</md-icon>
+          </md-button>
           <div v-show="selected">
+            <md-button
+              class="md-icon-button md-accent md-raised"
+              :to="'/faculty/editTest/'+selected"
+            >
+              <md-icon>edit</md-icon>
+            </md-button>
             <md-button class="md-icon-button md-accent md-raised" @click="deleteTest">
               <md-icon>delete</md-icon>
             </md-button>

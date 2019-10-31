@@ -92,12 +92,16 @@ type Group{
     faculties: [Faculty!]
     tests: [Test!]
 }
-
+type QuestionSchema{
+    description:String!
+    options:[String!]
+    correct_option: String @user_type(requires:FACULTY)
+}
 type Question{
     id: ID!
     qno: Int!
     student_answers: [Answer!]
-    schema: JSON!
+    schema: QuestionSchema!
     test: Test!
     created_at: DateTime!
     updated_at: DateTime!
@@ -154,7 +158,7 @@ type Mutation {
     addStudentToGroup(groupID:ID! studentID: ID!): Group! @user_type(requires:FACULTY)
     removeStudentFromGroup(groupID:ID! studentID: ID!): Group! @user_type(requires:FACULTY)
     createTest(name: String! course_id:ID! ): Test! @user_type(requires:FACULTY)
-    updateTest(id:ID! name: String! settings: JSON questions:JSON): Test! @user_type(requires:FACULTY)
+    updateTest(id:ID! name: String!): Test! @user_type(requires:FACULTY)
     addFacultyToTest(testID:ID! facultyID: ID!): Test! @user_type(requires:FACULTY)
     removeFacultyFromTest(testID:ID! facultyID: ID!): Test! @user_type(requires:FACULTY)
     addTestToGroup(groupID:ID! testID:ID! ): Group! @user_type(requires:FACULTY)
@@ -162,4 +166,7 @@ type Mutation {
     attemptTest(testID:ID!): Attempt! @user_type(requires:STUDENT)
     answerQuestion(attemptID:ID! questionID:ID! data:String!): Answer! @user_type(requires:STUDENT)
     evaluateAnswer(answerID:ID! marks:Float!): Answer! @user_type(requires:FACULTY)
+    saveQuestion(id:ID! schema: JSON!):Question! @user_type(requires:FACULTY)
+    addQuestion(test_id:ID! qno: Int!): Test! @user_type(requires:FACULTY)
+    saveTestSettings(id:ID! schema: JSON!): Test! @user_type(requires:FACULTY)
 }
