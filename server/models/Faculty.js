@@ -6,6 +6,10 @@ class Faculty extends Model {
     get $secureFields() {
         return ['password'];
     }
+
+    static get jsonAttributes() {
+        return ['permissions'];
+    }
     static get relationMappings() {
         return {
             groups: {

@@ -2,7 +2,7 @@ const Test = require('../../models/Test')
 const Question = require('../../models/Question')
 module.exports = {
     async createTest(parent, args, context) {
-        args.settings = {}
+        args.settings = '{}'
         let test = await Test.query().insert(args)
         await test.$relatedQuery('faculties').relate(context.user)
         return await test.$query();
@@ -23,10 +23,15 @@ module.exports = {
         return await Test.query().findById(args.id);
     },
     async addQuestion(parent, args, context) {
-        let test = await Test.query().findById(args.id)
+        args.schema = {
+            description: "",
+            options: [],
+            correct_option: 1
+        }
+        let test = await Test.query().findById(args.test_id)
         let userTests = await context.user.$relatedQuery('tests')
         if (userTests.find(g => g.id == test.id) || context.user.permissions.includes("MANAGE_APPLICATION"))
-            await test.$relatedQuery('questions').insert(args)
+            await Question.query().insert(args)
         else throw new Error("Forbidden")
         return await test.$query();
     },

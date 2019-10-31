@@ -3,6 +3,10 @@ class Test extends Model {
     static get tableName() {
         return 'tests';
     }
+    static get jsonAttributes() {
+        return ['settings'];
+    }
+
     static get relationMappings() {
         return {
             course: {

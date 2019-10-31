@@ -50,16 +50,19 @@ export default {
   apollo: {
     test: {
       query: gql`
-        query getTest($id: Int!) {
+        query getTest($id: ID!) {
           test(id: $id) {
             id
             name
             questions {
               qno
-              schema
+              schema {
+                description
+                options
+                correct_option
+              }
             }
             settings
-            faculties
             created_at
             updated_at
           }
@@ -76,7 +79,7 @@ export default {
   methods: {
     addQuestion() {
       let qno = 1;
-      if (this.test.questions.length > 0)
+      if (this.test.questions && this.test.questions.length > 0)
         qno = this.test.questions.reduce((a, q) => (a < q.qno ? q.qno : a)) + 1;
 
       const mutationgql = gql`
