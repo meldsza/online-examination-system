@@ -27,10 +27,6 @@ enum Permission {
 scalar Date
 scalar DateTime
 scalar JSON
-type TestSetting{
-    name: String!
-    value: JSON!
-}
 interface User{
     id: ID!
     name: String!
@@ -79,7 +75,7 @@ type Test{
     id: ID!
     course: Course!
     name: String!
-    settings: [TestSetting!]
+    settings: JSON!
     faculties: [Faculty!]
     groups: [Group!]
     questions: [Question!]

@@ -1,6 +1,7 @@
 const Test = require('../../models/Test')
 module.exports = {
     async createTest(parent, args, context) {
+        args.settings = {}
         let test = await Test.query().insert(args)
         await test.$relatedQuery('faculties').relate(context.user)
         return await test.$query();
