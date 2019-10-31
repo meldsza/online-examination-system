@@ -25,7 +25,8 @@ module.exports = {
     async addQuestion(parent, args, context) {
         args.schema = {
             description: "",
-            options: [],
+            type: "mcq",
+            options: ["", "", "", ""],
             correct_option: 1
         }
         let test = await Test.query().findById(args.test_id)

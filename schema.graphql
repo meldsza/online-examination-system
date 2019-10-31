@@ -95,6 +95,7 @@ type Group{
 type QuestionSchema{
     description:String!
     options:[String!]
+    type:String
     correct_option: String @user_type(requires:FACULTY)
 }
 type Question{
@@ -168,5 +169,5 @@ type Mutation {
     evaluateAnswer(answerID:ID! marks:Float!): Answer! @user_type(requires:FACULTY)
     saveQuestion(id:ID! schema: JSON!):Question! @user_type(requires:FACULTY)
     addQuestion(test_id:ID! qno: Int!): Test! @user_type(requires:FACULTY)
-    saveTestSettings(id:ID! schema: JSON!): Test! @user_type(requires:FACULTY)
+    saveTestSettings(id:ID! settings: JSON!): Test! @user_type(requires:FACULTY)
 }

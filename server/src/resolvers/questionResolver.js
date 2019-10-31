@@ -1,7 +1,7 @@
 const Question = require('../../models/Question')
 module.exports = {
     async get(obj, args) {
-        return await Question.query().where({ 'id': args.id });
+        return await Question.query().findById(args.id)
     },
     async getTest(obj) {
         return await obj.$relatedQuery('test')

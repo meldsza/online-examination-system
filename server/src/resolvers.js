@@ -49,6 +49,7 @@ module.exports = {
     },
     Test: {
         groups: testResolver.getGroups,
+        questions: testResolver.getQuestions,
         attempts: testResolver.getAttempts,
         faculties: testResolver.getFaculties,
         course: testResolver.getCourse

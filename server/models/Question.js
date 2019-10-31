@@ -4,13 +4,16 @@ class Question extends Model {
     static get tableName() {
         return 'questions';
     }
+    static get jsonAttributes() {
+        return ['schema'];
+    }
     static get relationMappings() {
         return {
             test: {
                 relation: Model.BelongsToOneRelation,
                 modelClass: 'Test',
                 join: {
-                    from: 'question.test_id',
+                    from: 'questions.test_id',
                     to: 'tests.id'
                 }
             },

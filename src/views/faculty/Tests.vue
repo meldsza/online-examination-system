@@ -79,7 +79,7 @@ export default {
     };
   },
   mounted() {
-    this.$apollo.queries.me.refresh();
+    this.$apollo.queries.me.refetch();
   },
   methods: {
     getClass(id) {
