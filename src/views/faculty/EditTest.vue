@@ -19,6 +19,21 @@
               v-model="editableTest.settings.enable_review"
               @change="saveSettings"
             >Enable Review</md-switch>
+            <md-field>
+              <label>Duration (in minutes)</label>
+              <md-input
+                v-model="editableTest.settings.duration"
+                type="number"
+                @input="saveSettings"
+              ></md-input>
+            </md-field>
+            <md-datepicker
+              @input="saveSettings"
+              md-immediately
+              v-model="editableTest.settings.due_date"
+            >
+              <label>Due date</label>
+            </md-datepicker>
           </md-card-content>
         </md-card>
         <br />
