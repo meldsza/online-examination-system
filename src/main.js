@@ -8,6 +8,7 @@ import VueMaterial from 'vue-material'
 import 'vue-material/dist/vue-material.min.css'
 import 'vue-material/dist/theme/default.css'
 import { createProvider } from './vue-apollo'
+import 'material-design-icons/iconfont/material-icons.css'
 
 Vue.use(VueMaterial)
 // register the plugin on vue
