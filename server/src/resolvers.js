@@ -58,8 +58,6 @@ module.exports = {
         tests: courseResolver.getTests
     },
     Group: {
-        parent: groupResolver.getParent,
-        children: groupResolver.getChildren,
         students: groupResolver.getStudents,
         faculties: groupResolver.getFaculties,
         tests: groupResolver.getTests

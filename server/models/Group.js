@@ -32,14 +32,7 @@ class Group extends Model {
                     to: 'students.id',
                 }
             },
-            children: {
-                relation: Model.HasManyRelation,
-                modelClass: 'Group',
-                join: {
-                    from: 'groups.id',
-                    to: 'groups.parent_group'
-                }
-            },
+
             tests: {
                 relation: Model.ManyToManyRelation,
                 modelClass: 'Test',
@@ -53,14 +46,7 @@ class Group extends Model {
                     to: 'tests.id'
                 }
             },
-            parent: {
-                relation: Model.BelongsToOneRelation,
-                modelClass: 'Group',
-                join: {
-                    from: 'groups.parent_group',
-                    to: 'groups.id'
-                }
-            }
+
         };
     }
 }

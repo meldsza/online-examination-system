@@ -12,12 +12,6 @@ module.exports = {
     async get(obj, args) {
         return await Group.query().where({ 'id': args.id });
     },
-    async getParent(obj) {
-        return obj.$relatedQuery('parent')
-    },
-    async getChildren(obj) {
-        return obj.$relatedQuery('children')
-    },
     async getStudents(obj) {
         return obj.$relatedQuery('students')
     },

@@ -86,8 +86,6 @@ type Test{
 type Group{
     id: ID!
     name: String!
-    parent: Group
-    children: [Group!]
     students: [Student!]
     faculties: [Faculty!]
     tests: [Test!]
