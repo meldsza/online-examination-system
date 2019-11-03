@@ -3,17 +3,14 @@
     <md-card-content>
       <md-toolbar md-elevation="0">
         <div class="md-toolbar-section-start">
-          <h1 class="md-title">Tests</h1>
+          <h1 class="md-title">Groups</h1>
         </div>
         <div class="md-toolbar-section-end">
-          <md-button class="md-icon-button md-accent md-raised" to="/faculty/createTest">
+          <md-button class="md-icon-button md-accent md-raised">
             <md-icon>add</md-icon>
           </md-button>
           <div v-show="selected">
-            <md-button
-              class="md-icon-button md-accent md-raised"
-              :to="'/faculty/editTest/'+selected"
-            >
+            <md-button class="md-icon-button md-accent md-raised">
               <md-icon>edit</md-icon>
             </md-button>
           </div>
@@ -21,7 +18,7 @@
       </md-toolbar>
       <md-table
         v-if="!!me"
-        v-model="me.tests"
+        v-model="me.groups"
         @md-selected="onSelect"
         md-sort="created_at"
         md-sort-order="desc"
@@ -58,7 +55,7 @@ export default {
         me {
           ... on Faculty {
             id
-            tests {
+            groups {
               id
               name
               created_at
@@ -85,6 +82,58 @@ export default {
     onSelect(item) {
       if (!item) return (this.selected = null);
       this.selected = item.id;
+    },
+    createGroup(name) {
+      this.$apollo
+        .mutate({
+          // Query
+          mutation: gql`
+            mutation($name: String!) {
+              createGroup(name: $name) {
+                id
+                name
+              }
+            }
+          `,
+          // Parameters
+          variables: name
+        })
+        .then(data => {
+          // Result
+          console.log(data);
+          this.$toasted.show("Created Group successfully");
+        })
+        .catch(error => {
+          // Error
+          console.error(error);
+          this.$toasted.show("Couldnt create group");
+        });
+    },
+    editTest(args) {
+      this.$apollo
+        .mutate({
+          // Query
+          mutation: gql`
+            mutation($id: ID!, $name: String!) {
+              editTest(id: $id, name: $name) {
+                id
+                name
+              }
+            }
+          `,
+          // Parameters
+          variables: args
+        })
+        .then(data => {
+          // Result
+          console.log(data);
+          this.$toasted.show("Editted Group successfully");
+        })
+        .catch(error => {
+          // Error
+          console.error(error);
+          this.$toasted.show("Couldnt edit group");
+        });
     }
   }
 };

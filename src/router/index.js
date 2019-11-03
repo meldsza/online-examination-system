@@ -36,6 +36,11 @@ const routes = [
     component: () => import('../views/faculty/Tests.vue')
   },
   {
+    path: '/faculty/groups',
+    name: 'faculty.groups',
+    component: () => import('../views/faculty/Groups.vue')
+  },
+  {
     path: '/student',
     name: 'student.dashboard',
     component: () => import('../views/student/Dashboard')
