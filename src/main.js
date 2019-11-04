@@ -22,8 +22,18 @@ Vue.use(Toasted, {
 
 import SideNav from './components/SideNav.vue'
 Vue.component('SideNav', SideNav)
-
-
+const timesync = require('timesync/dist/timesync')
+const ts = timesync.create({
+  server: process.env.VUE_APP_TIMESYNC || 'http://localhost:4000/timesync',
+  interval: 1000
+});
+Vue.mixin({
+  methods: {
+    getCurrentTimeFromServer() {
+      return new Date(ts.now())
+    }
+  }
+})
 new Vue({
   router,
   apolloProvider: createProvider(),

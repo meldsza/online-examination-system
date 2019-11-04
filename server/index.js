@@ -11,6 +11,7 @@ const schema = require('./src/schema');
 const resolvers = require('./src/resolvers');
 const facultyLogin = require('./src/auth/loginFaculty')
 const studentLogin = require('./src/auth/loginStudent')
+const timesyncServer = require('timesync/server');
 
 let server;
 async function verifyToken(token) {
@@ -95,6 +96,7 @@ function setupAuth(app) {
     authrouter.post('/faculty/login', facultyLogin)
     authrouter.post('/student/login', studentLogin)
     app.use('/auth', authrouter)
+    app.use('/timesync', timesyncServer.requestHandler)
 
 }
 function launchServer(httpServer) {

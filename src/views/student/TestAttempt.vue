@@ -13,8 +13,11 @@
               </md-card-header>
               <md-card-content>{{question.schema.description}}</md-card-content>
             </md-card>
-            <AttemptAnswer v-if="getAnswer(question.id)" :answer_id="getAnswer(question.id)"></AttemptAnswer>
-            <md-button @click="attemptQuestion(question.id)">Attempt Question</md-button>
+            <AttemptAnswer
+              :answer="getAnswer(question.id)"
+              :attempt_id="attempt.id"
+              :question="question"
+            ></AttemptAnswer>
           </md-card-content>
         </md-card>
       </md-card-content>
@@ -24,6 +27,7 @@
 
 <script>
 import gql from "graphql-tag";
+const moment = require("moment");
 export default {
   apollo: {
     attempt: {
@@ -31,8 +35,19 @@ export default {
         query getAttempt($id: ID!) {
           attempt(id: $id) {
             id
-            test
-            answers
+            test {
+              id
+              name
+              settings
+              questions {
+                id
+                schema
+              }
+            }
+            answers {
+              data
+            }
+            created_at
           }
         }
       `,
@@ -41,13 +56,35 @@ export default {
       }
     }
   },
+  data() {
+    return {
+      interval: null
+    };
+  },
+  mounted() {
+    this.interval = setInterval(this.checkTimer, 1000);
+  },
   methods: {
     getAnswer(qid) {
       return this.attempt.test.attempts.find(a => a.question_id == qid);
     },
-    attemptQuestion(qid) {
-      this.$apollo.queries.attempt.refetch();
+    checkTimer() {
+      if (this.attempt.test.duration) {
+        if (
+          this.attempt.test.duration <
+          Math.abs(
+            moment(this.attempt.created_at).diff(
+              this.getCurrentTimeFromServer()
+            )
+          )
+        ) {
+          this.$router.push("/student");
+        }
+      }
     }
+  },
+  beforeDestroy() {
+    clearInterval(this.interval);
   }
 };
 </script>
