@@ -53,7 +53,17 @@ const routes = [
   {
     path: '/student',
     name: 'student.dashboard',
-    component: () => import('../views/student/Dashboard')
+    component: () => import('../views/student/Dashboard.vue')
+  },
+  {
+    path: '/student/view_test/:id',
+    name: 'student.view_test',
+    component: () => import('../views/student/ViewTest.vue')
+  },
+  {
+    path: '/student/attempt_test/:id',
+    name: 'student.attempt_test',
+    component: () => import('../views/student/TestAttempt.vue')
   }
 ]
 

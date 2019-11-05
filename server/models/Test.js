@@ -25,6 +25,14 @@ class Test extends Model {
                     to: 'questions.test_id'
                 }
             },
+            attempts: {
+                relation: Model.HasManyRelation,
+                modelClass: 'Attempt',
+                join: {
+                    from: 'tests.id',
+                    to: 'attempts.test_id'
+                }
+            },
             groups: {
                 relation: Model.ManyToManyRelation,
                 modelClass: 'Group',

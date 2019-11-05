@@ -5,8 +5,8 @@ exports.up = function (knex) {
             table.increments('id');
             table.integer('question_id').unsigned().notNullable();
             table.integer('attempt_id').unsigned().notNullable();
-            table.json('data');
-            table.unique('question_id', 'attempt_id');
+            table.text('data');
+            table.unique(['question_id', 'attempt_id']);
             table.timestamps();
         })
 };

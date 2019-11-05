@@ -4,12 +4,14 @@ const testResolver = require('./resolvers/testResolver')
 const courseResolver = require('./resolvers/courseResolver')
 const groupResolver = require('./resolvers/groupResolver')
 const questionResolver = require('./resolvers/questionResolver')
+const answerResolver = require('./resolvers/answerResolver')
 const attemptResolver = require('./resolvers/attemptResolver')
 const facultyMutators = require('./mutators/facultyMutator')
 const studentMutators = require('./mutators/studentMutator')
 const groupMutators = require('./mutators/groupMutator')
 const testMutators = require('./mutators/testMutator')
 const attemptMutators = require('./mutators/attemptMutator')
+
 const countResolvers = require('./resolvers/countResolvers')
 
 module.exports = {
@@ -25,6 +27,7 @@ module.exports = {
         group: groupResolver.get,
         groups: groupResolver.all,
         question: questionResolver.get,
+        attempt: attemptResolver.get,
         ...countResolvers,
         me: (_, __, context) => { return context.user }
     },
@@ -54,6 +57,10 @@ module.exports = {
         faculties: testResolver.getFaculties,
         course: testResolver.getCourse
     },
+    Answer: {
+        attempt: answerResolver.getAttempt,
+        question: answerResolver.getQuestion
+    },
     Course: {
         tests: courseResolver.getTests
     },
@@ -68,7 +75,9 @@ module.exports = {
     },
     Attempt: {
         student: attemptResolver.getStudent,
-        answers: attemptResolver.getAnswers
+        answers: attemptResolver.getAnswers,
+        test: attemptResolver.getTest,
+        marks: attemptResolver.getMarks
     },
     Mutation: {
         ...facultyMutators,

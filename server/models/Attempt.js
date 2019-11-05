@@ -21,7 +21,14 @@ class Attempt extends Model {
                     from: 'attempts.student_id',
                     to: 'students.id'
                 }
-            }
+            }, answers: {
+                relation: Model.HasManyRelation,
+                modelClass: 'Answer',
+                join: {
+                    from: 'attempts.id',
+                    to: 'answers.attempt_id'
+                }
+            },
         };
     }
 }

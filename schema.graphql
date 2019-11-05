@@ -96,6 +96,7 @@ type QuestionSchema{
     description:String!
     options:[String!]
     type:String
+    marks:Float!
     correct_option: String @user_type(requires:FACULTY)
 }
 type Question{
@@ -124,6 +125,7 @@ type Attempt{
     answers: [Answer!]
     marks: Float
     created_at: DateTime!
+    submitted_at: DateTime
     updated_at: DateTime!
 }
 
@@ -164,8 +166,9 @@ type Mutation {
     removeFacultyFromTest(testID:ID! facultyID: ID!): Test! @user_type(requires:FACULTY)
     addTestToGroup(groupID:ID! testID:ID! ): Group! @user_type(requires:FACULTY)
     removeTestFromGroup(testID:ID! groupID:ID!): Test! @user_type(requires:FACULTY)
-    attemptTest(testID:ID!): Attempt! @user_type(requires:STUDENT)
+    attemptTest(id:ID!): Attempt! @user_type(requires:STUDENT)
     answerQuestion(attemptID:ID! questionID:ID! data:String!): Answer! @user_type(requires:STUDENT)
+    finishAttempt(id:ID!): Attempt!@user_type(requires:STUDENT)
     evaluateAnswer(answerID:ID! marks:Float!): Answer! @user_type(requires:FACULTY)
     saveQuestion(id:ID! schema: JSON!):Question! @user_type(requires:FACULTY)
     addQuestion(test_id:ID! qno: Int!): Test! @user_type(requires:FACULTY)

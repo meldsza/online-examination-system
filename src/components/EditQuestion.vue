@@ -13,7 +13,10 @@
           <label>Desciption</label>
           <md-textarea v-model="editableQuestion.schema.description" @input="save" md-autogrow></md-textarea>
         </md-field>
-
+        <md-field>
+          <label>Marks</label>
+          <md-input v-model="editableQuestion.schema.marks" @input="save" type="number"></md-input>
+        </md-field>
         <div v-if="editableQuestion.schema.type =='mcq'">
           <md-card>
             <md-card-header>
@@ -22,22 +25,32 @@
             <md-card-content>
               <md-field>
                 <label>Option 1</label>
-                <md-textarea v-model="editableQuestion.schema.options[1]" @input="save" md-autogrow></md-textarea>
+                <md-textarea v-model="editableQuestion.schema.options[0]" @input="save" md-autogrow></md-textarea>
               </md-field>
               <md-field>
                 <label>Option 2</label>
-                <md-textarea v-model="editableQuestion.schema.options[2]" @input="save" md-autogrow></md-textarea>
+                <md-textarea v-model="editableQuestion.schema.options[1]" @input="save" md-autogrow></md-textarea>
               </md-field>
               <md-field>
                 <label>Option 3</label>
-                <md-textarea v-model="editableQuestion.schema.options[3]" @input="save" md-autogrow></md-textarea>
+                <md-textarea v-model="editableQuestion.schema.options[2]" @input="save" md-autogrow></md-textarea>
               </md-field>
               <md-field>
                 <label>Option 4</label>
-                <md-textarea v-model="editableQuestion.schema.options[4]" @input="save" md-autogrow></md-textarea>
+                <md-textarea v-model="editableQuestion.schema.options[3]" @input="save" md-autogrow></md-textarea>
               </md-field>
             </md-card-content>
           </md-card>
+          <md-field>
+            <label>Correct Option</label>
+            <md-select v-model="editableQuestion.schema.correct_option" @input="save">
+              <md-option
+                v-for="option in editableQuestion.schema.options"
+                :value="option"
+                :key="question_id+'QAO'+option"
+              >{{option}}</md-option>
+            </md-select>
+          </md-field>
         </div>
       </md-card-content>
     </md-card>
@@ -57,6 +70,7 @@ export default {
             id
             schema {
               type
+              marks
               description
               options
               correct_option

@@ -52,6 +52,9 @@
 <script>
 import gql from "graphql-tag";
 export default {
+  data() {
+    return { selected: null };
+  },
   apollo: {
     test: {
       query: gql`
@@ -67,6 +70,8 @@ export default {
                 name
               }
               marks
+              created_at
+              updated_at
             }
             created_at
             updated_at

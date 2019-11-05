@@ -2,7 +2,7 @@ const Test = require('../../models/Test')
 const Question = require('../../models/Question')
 module.exports = {
     async createTest(parent, args, context) {
-        args.settings = '{}'
+        args.settings = { "marks": 1 }
         let test = await Test.query().insert(args)
         await test.$relatedQuery('faculties').relate(context.user)
         return await test.$query();

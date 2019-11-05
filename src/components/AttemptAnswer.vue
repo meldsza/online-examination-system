@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="question">
     <div v-if="question.schema.type == 'mcq'">
       <md-radio
         v-for="option in question.schema.options"
@@ -8,7 +8,7 @@
         :value="option"
       >{{option}}</md-radio>
     </div>
-    <div v-if="answer.question.schema.type == 'subjective'">
+    <div v-else-if="question.schema.type == 'subjective'">
       <md-field>
         <label>Answer</label>
         <md-textarea v-model="answerData" md-autogrow></md-textarea>
@@ -18,14 +18,18 @@
 </template>
 
 <script>
+import gql from "graphql-tag";
 export default {
   props: {
     answer: {
-      default: {
-        data: ""
+      default() {
+        return {
+          data: ""
+        };
       }
     },
-    question: {}
+    question: {},
+    attempt_id: {}
   },
   data() {
     return {
@@ -38,7 +42,7 @@ export default {
   methods: {
     submit() {
       const mut = gql`
-        mutation saveAnswer($attemptID: ID!, $questionID: ID!, $data: String) {
+        mutation saveAnswer($attemptID: ID!, $questionID: ID!, $data: String!) {
           answerQuestion(
             attemptID: $attemptID
             questionID: $questionID

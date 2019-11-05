@@ -25,12 +25,21 @@ Vue.component('SideNav', SideNav)
 const timesync = require('timesync/dist/timesync')
 const ts = timesync.create({
   server: process.env.VUE_APP_TIMESYNC || 'http://localhost:4000/timesync',
-  interval: 1000
+  interval: 10000
 });
+const moment = require('moment')
 Vue.mixin({
   methods: {
+    getTimeDiffInMinutes(t1, t2) {
+      return (moment(t1).diff(moment(t2), 'minutes'))
+    },
+    getTimeDiffInSec(t1, t2) {
+      t1 = new Date(t1)
+      t2 = new Date(t2)
+      return (moment(t1).diff(moment(t2), 'seconds'))
+    },
     getCurrentTimeFromServer() {
-      return new Date(ts.now())
+      return (new Date(ts.now())).toISOString().slice(0, 19).replace('T', ' ')
     }
   }
 })
