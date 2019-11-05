@@ -89,6 +89,8 @@ type Group{
     students: [Student!]
     faculties: [Faculty!]
     tests: [Test!]
+    created_at: DateTime!
+    updated_at: DateTime!
 }
 type QuestionSchema{
     description:String!

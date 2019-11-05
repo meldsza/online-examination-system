@@ -7,7 +7,6 @@ exports.up = function (knex) {
             table.foreign('faculty_id').references('faculties.id').onDelete('CASCADE').onUpdate('CASCADE')
             table.foreign('group_id').references('groups.id').onDelete('CASCADE').onUpdate('CASCADE')
             table.primary(['group_id', 'faculty_id'])
-            table.timestamps();
         })
 };
 

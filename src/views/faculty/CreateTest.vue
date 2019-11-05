@@ -64,6 +64,7 @@ export default {
           // Result
           console.log(data);
           this.$toasted.show("Created test successfully");
+          this.$router.push("/faculty/editTest/" + data.data.createTest.id);
         })
         .catch(error => {
           // Error

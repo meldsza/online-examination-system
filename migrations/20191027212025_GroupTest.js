@@ -6,7 +6,6 @@ exports.up = function (knex) {
             table.integer('test_id').unsigned().notNullable();
             table.foreign('test_id').references('tests.id').onDelete('CASCADE').onUpdate('CASCADE')
             table.foreign('group_id').references('groups.id').onDelete('CASCADE').onUpdate('CASCADE')
-            table.timestamps();
         })
 };
 

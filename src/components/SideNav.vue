@@ -11,6 +11,7 @@
       <span class="md-list-item-text">Dashboard</span>
     </md-list-item>
     <md-list-item to="/faculty/tests">Tests</md-list-item>
+    <md-list-item to="/faculty/groups">Groups</md-list-item>
 
     <md-list-item @click="logout">
       <span class="md-list-item-text">Logout</span>

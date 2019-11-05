@@ -16,6 +16,12 @@
             >
               <md-icon>edit</md-icon>
             </md-button>
+            <md-button
+              class="md-icon-button md-accent md-raised"
+              :to="'/faculty/view_test_results/'+selected"
+            >
+              <md-icon>remove_red_eye</md-icon>
+            </md-button>
           </div>
         </div>
       </md-toolbar>
