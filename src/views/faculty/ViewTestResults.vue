@@ -16,7 +16,7 @@
               </md-button>
               <md-button
                 class="md-icon-button md-accent md-raised"
-                :to="'/faculty/view_test_result/'+selected"
+                :to="'/faculty/attempt_review/'+selected"
               >
                 <md-icon>remove_red_eye</md-icon>
               </md-button>

@@ -31,10 +31,9 @@ module.exports = {
         }
         else return await Answer.query().insert({ 'question_id': args.questionID, 'attempt_id': attempt.id, data: args.data, marks: args.marks })
     },
-    async evaluateAnswer(parent, args, context) {
-        let userTests = await context.user.$relatedQuery('tests')
-        if (userTests.find(g => g.id == args.id) || context.user.permissions.includes("MANAGE_APPLICATION")) {
-            return await Answer.query().patchAndFetchById(args.answerID, { marks: args.marks })
-        }
+    async evaluateAnswer(parent, args) {
+
+        return await Answer.query().patchAndFetchById(args.id, { marks: args.marks })
+
     }
 }

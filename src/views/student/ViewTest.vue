@@ -28,7 +28,10 @@
                 :to="'/student/attempt_test/'+item.id"
                 v-if="!item.submitted_at || (getTimeDiffInSec(item.submitted_at, getCurrentTimeFromServer())>0)"
               >Resume Attempt</md-button>
-              <md-button v-else-if="test.settings.enable_review">Review</md-button>
+              <md-button
+                v-else-if="test.settings.enable_review"
+                :to="'/student/attempt_review/'+item.id"
+              >Review</md-button>
             </md-table-cell>
           </md-table-row>
         </md-table>

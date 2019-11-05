@@ -169,7 +169,7 @@ type Mutation {
     attemptTest(id:ID!): Attempt! @user_type(requires:STUDENT)
     answerQuestion(attemptID:ID! questionID:ID! data:String!): Answer! @user_type(requires:STUDENT)
     finishAttempt(id:ID!): Attempt!@user_type(requires:STUDENT)
-    evaluateAnswer(answerID:ID! marks:Float!): Answer! @user_type(requires:FACULTY)
+    evaluateAnswer(id:ID! marks:Float!): Answer! @user_type(requires:FACULTY)
     saveQuestion(id:ID! schema: JSON!):Question! @user_type(requires:FACULTY)
     addQuestion(test_id:ID! qno: Int!): Test! @user_type(requires:FACULTY)
     saveTestSettings(id:ID! settings: JSON!): Test! @user_type(requires:FACULTY)

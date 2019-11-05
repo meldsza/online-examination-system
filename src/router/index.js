@@ -64,7 +64,22 @@ const routes = [
     path: '/student/attempt_test/:id',
     name: 'student.attempt_test',
     component: () => import('../views/student/TestAttempt.vue')
-  }
+  },
+  {
+    path: '/student/attempt_review/:id',
+    name: 'student.attempt_review',
+    component: () => import('../views/student/TestAttemptReview.vue')
+  },
+  {
+    path: '/faculty/attempt_review/:id',
+    name: 'faculty.attempt_review',
+    component: () => import('../views/student/TestAttemptReview.vue')
+  },
+  {
+    path: '/faculty/evaluate_attempt/:id',
+    name: 'faculty.evaluate_attempt',
+    component: () => import('../views/faculty/TestAttempEvaluation.vue')
+  },
 ]
 
 const router = new VueRouter({
