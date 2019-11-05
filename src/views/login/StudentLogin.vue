@@ -61,7 +61,7 @@ export default {
         .then(res => {
           onLogin(this.$apollo.provider.defaultClient, res.data.token);
 
-          this.$router.push("/");
+          this.$router.push("/student");
         })
         .catch(err => {
           if (err.response.status == 401) {

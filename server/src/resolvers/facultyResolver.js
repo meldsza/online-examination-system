@@ -10,7 +10,7 @@ module.exports = {
 
     },
     async get(obj, args) {
-        return await Faculty.query().where({ 'id': args.id });
+        return await Faculty.query().findById(args.id);
     },
     async getGroups(obj) {
         return obj.$relatedQuery('groups')

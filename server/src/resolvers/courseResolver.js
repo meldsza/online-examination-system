@@ -9,7 +9,7 @@ module.exports = {
         return res.results
     },
     async get(obj, args) {
-        return await Course.query().where({ 'id': args.id });
+        return await Course.query().findById(args.id);
     },
     async getTests(obj) {
         return await obj.$relatedQuery('tests')

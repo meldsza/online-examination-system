@@ -1,7 +1,7 @@
 const Attempt = require('../../models/Attempt')
 module.exports = {
     async get(obj, args) {
-        return await Attempt.query().orderBy('created_at', 'desc').where({ 'id': args.id });
+        return await Attempt.query().findById(args.id);
     },
     async getTest(obj) {
         return await obj.$relatedQuery('test')

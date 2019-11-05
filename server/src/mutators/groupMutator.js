@@ -15,6 +15,7 @@ module.exports = {
         let group = await Group.query().findById(args.groupID).eager('faculties');
         if (group.faculties.find(f => (f.id == context.user.id)))
             await group.$relatedQuery('faculties').relate(args.facultyID)
+        else throw Error("Insuffient perms")
         return await group.$query()
     },
     async removeFacultyFromGroup(parent, args, context) {
@@ -26,7 +27,8 @@ module.exports = {
     async addStudentToGroup(parent, args, context) {
         let group = await Group.query().findById(args.groupID).eager('faculties');
         if (group.faculties.find(f => (f.id == context.user.id)))
-            await group.$relatedQuery('students').append(args.studentID)
+            await group.$relatedQuery('students').relate(args.studentID)
+        else throw Error("Insuffient perms")
         return await group.$query()
     },
     async removeStudentFromGroup(parent, args, context) {
@@ -35,5 +37,17 @@ module.exports = {
             await group.$relatedQuery('students').unrelate().where('id', args.studentID)
         return await group.$query()
     },
-
+    async addTestToGroup(parent, args, context) {
+        let group = await Group.query().findById(args.groupID).eager('faculties');
+        if (group.faculties.find(f => (f.id == context.user.id)))
+            await group.$relatedQuery('tests').relate(args.testID)
+        else throw Error("Insuffient perms")
+        return await group.$query()
+    },
+    async removeTestFromGroup(parent, args, context) {
+        let group = await Group.query().findById(args.groupID).eager('faculties');
+        if (group.faculties.find(f => (f.id == context.user.id)))
+            await group.$relatedQuery('tests').unrelate().where('id', args.testID)
+        return await group.$query()
+    },
 }

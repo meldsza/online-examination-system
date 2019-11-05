@@ -41,9 +41,14 @@ const routes = [
     component: () => import('../views/faculty/Groups.vue')
   },
   {
-    path: '/faculty/view_test_results',
+    path: '/faculty/view_test_results/:id',
     name: 'faculty.view_test_results',
     component: () => import('../views/faculty/ViewTestResults.vue')
+  },
+  {
+    path: '/faculty/group_edit/:id',
+    name: 'faculty.group_edit',
+    component: () => import('../views/faculty/GroupEdit.vue')
   },
   {
     path: '/student',

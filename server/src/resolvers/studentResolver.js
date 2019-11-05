@@ -12,7 +12,7 @@ module.exports = {
 
     },
     async get(obj, args) {
-        let s = await Student.query().where({ 'id': args.id });
+        let s = await Student.query().findById(args.id);
         console.log(s)
         return s;
     },
