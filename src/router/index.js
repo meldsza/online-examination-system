@@ -80,6 +80,36 @@ const routes = [
     name: 'faculty.evaluate_attempt',
     component: () => import('../views/faculty/TestAttempEvaluation.vue')
   },
+  {
+    path: '/faculty/faculties',
+    name: 'faculty.manage_faculty',
+    component: () => import('../views/faculty/ManageFaculty.vue')
+  },
+  {
+    path: '/faculty/students',
+    name: 'faculty.manage_students',
+    component: () => import('../views/faculty/ManageStudents.vue')
+  },
+  {
+    path: '/faculty/create_faculty/',
+    name: 'faculty.create_faculty',
+    component: () => import('../views/faculty/CreateFaculty.vue')
+  },
+  {
+    path: '/faculty/edit_faculty/:id',
+    name: 'faculty.edit_faculty',
+    component: () => import('../views/faculty/EditFaculty.vue')
+  },
+  {
+    path: '/faculty/create_student/',
+    name: 'faculty.create_student',
+    component: () => import('../views/faculty/CreateStudent.vue')
+  },
+  {
+    path: '/faculty/edit_student/:id',
+    name: 'faculty.edit_student',
+    component: () => import('../views/faculty/EditStudent.vue')
+  },
 ]
 
 const router = new VueRouter({

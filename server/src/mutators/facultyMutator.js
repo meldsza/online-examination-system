@@ -1,6 +1,7 @@
 const Faculty = require('../../models/Faculty')
 module.exports = {
     async createFaculty(parent, args) {
+        args.permissions = []
         return await Faculty.query().insert(args)
     },
     async updateFaculty(parent, args, context) {

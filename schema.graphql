@@ -149,11 +149,11 @@ type Query {
     group(id:ID!): Group
 }
 type Mutation {
-    createFaculty(name: String! username: String! designation: String! email: String password: String! permissions: [String!] ): Faculty! @permission(requires:MANAGE_FACULTY) @user_type(requires:FACULTY)
+    createFaculty(name: String! username: String! designation: String! email: String password: String! ): Faculty! @permission(requires:MANAGE_FACULTY) @user_type(requires:FACULTY)
     createStudent(name: String! username: String! usn: String! email: String password: String! dob:Date): Student! @permission(requires:MANAGE_STUDENTS) @user_type(requires:FACULTY)
-    updateFaculty(id:ID! name: String username: String designation: String email: String password: String): Faculty! @user_type(requires:FACULTY)
+    updateFaculty(id:ID! name: String username: String designation: String email: String): Faculty! @user_type(requires:FACULTY)
     updateFacultyPermissions(id:ID!, permissions: [String!]) : Faculty! @permission(requires:MANAGE_APPLICATION) @user_type(requires:FACULTY)
-    updateStudent(id:ID! name: String username: String usn: String email: String password: String dob:Date): Student! @permission(requires:MANAGE_STUDENTS) @user_type(requires:FACULTY)
+    updateStudent(id:ID! name: String username: String usn: String email: String dob:Date): Student! @permission(requires:MANAGE_STUDENTS) @user_type(requires:FACULTY)
     createGroup(name: String! ): Group! @user_type(requires:FACULTY)
     updateGroup(id:ID! name: String ): Group! @user_type(requires:FACULTY)
     addFacultyToGroup(groupID:ID! facultyID: ID!): Group! @user_type(requires:FACULTY)

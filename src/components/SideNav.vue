@@ -12,7 +12,8 @@
     </md-list-item>
     <md-list-item to="/faculty/tests">Tests</md-list-item>
     <md-list-item to="/faculty/groups">Groups</md-list-item>
-
+    <md-list-item to="/faculty/students" v-if="me.permissions.includes('MANAGE_STUDENTS')">Students</md-list-item>
+    <md-list-item to="/faculty/faculties" v-if="me.permissions.includes('MANAGE_FACULTY')">Faculties</md-list-item>
     <md-list-item @click="logout">
       <span class="md-list-item-text">Logout</span>
     </md-list-item>
@@ -41,6 +42,9 @@ export default {
           name
           username
           __typename
+          ... on Faculty {
+            permissions
+          }
         }
       }
     `
