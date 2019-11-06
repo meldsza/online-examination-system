@@ -27,7 +27,8 @@ module.exports = {
             description: "",
             type: "mcq",
             options: ["", "", "", ""],
-            correct_option: 1
+            correct_option: 1,
+            marks: 1
         }
         let test = await Test.query().findById(args.test_id)
         let userTests = await context.user.$relatedQuery('tests')
