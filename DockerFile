@@ -1,0 +1,18 @@
+# build stage
+FROM node:lts-alpine
+WORKDIR /app
+COPY . .
+RUN apk update \
+    && apk add curl python --no-cache --virtual build-dependencies build-base gcc \
+    && apk add --no-cache openssh nginx \
+    && npm i -g npm@latest \
+    && npm i \
+    && cp nginx.conf /etc/nginx/nginx.conf \
+    && /app/dist /usr/share/nginx/html
+
+RUN service nginx start
+
+RUN npm run build
+EXPOSE 80 4000
+CMD ["npm", "start"]
+
